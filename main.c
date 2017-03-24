@@ -8,16 +8,63 @@
 */
 
 #include <stdio.h>
-
+#include <stdlib.h>
 static const char basis_64[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+int codificar(char *codificado, const char *data, int tamanio) {
+  int i;
+  char *p;
+
+  p = codificado;
+  for (i = 0; i < tamanio - 2; i += 3) {
+    *p++ = basis_64[(data[i] >> 2) & 0x3F];
+    *p++ = basis_64[((data[i] & 0x3) << 4) |
+                    ((int) (data[i + 1] & 0xF0) >> 4)];
+    *p++ = basis_64[((data[i + 1] & 0xF) << 2) |
+                    ((int) (data[i + 2] & 0xC0) >> 6)];
+    *p++ = basis_64[data[i + 2] & 0x3F];
+  }
+  if (i < tamanio) {
+    *p++ = basis_64[(data[i] >> 2) & 0x3F];
+    if (i == (tamanio - 1)) {
+        *p++ = basis_64[((data[i] & 0x3) << 4)];
+        *p++ = '=';
+    }
+    else {
+        *p++ = basis_64[((data[i] & 0x3) << 4) |
+                        ((int) (data[i + 1] & 0xF0) >> 4)];
+        *p++ = basis_64[((data[i + 1] & 0xF) << 2)];
+    }
+    *p++ = '=';
+  }
+
+    *p++ = '\0';
+    return p - codificado;
+}
 
 int main(int argc, char** argv) {
 
+  size_t tamanio_buffer = 1000;
+  size_t n = 0;
+  int c;
+  char* data = (char*)malloc(tamanio_buffer);
+  char* codificado = (char*)malloc(1500);
+  FILE *archivoEntrada = fopen("test.txt", "rb");
 
-   
+  while ((c = fgetc(archivoEntrada)) != EOF) 
+  {
+    data[n++] = (char) c;
+    if (n == (tamanio_buffer - 1)) {
+       codificar(codificado, data, n);
+    }
+  }
+  
 
+
+  codificado[n]='\0';
+  printf("character %s ", codificado);
+ 
   return 0;
 }
 
