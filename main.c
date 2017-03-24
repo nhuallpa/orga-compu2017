@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 static const char basis_64[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -45,25 +46,30 @@ int codificar(char *codificado, const char *data, int tamanio) {
 
 int main(int argc, char** argv) {
 
+  
+
   size_t tamanio_buffer = 1000;
   size_t n = 0;
   int c;
   char* data = (char*)malloc(tamanio_buffer);
   char* codificado = (char*)malloc(1500);
-  FILE *archivoEntrada = fopen("test.txt", "rb");
+  
+  fgets(data, tamanio_buffer, stdin);
+  n = strlen(data);
+  /*FILE *archivoEntrada = fopen("test.txt", "rb");
 
   while ((c = fgetc(archivoEntrada)) != EOF) 
   {
-    data[n++] = (char) c;
-    if (n == (tamanio_buffer - 1)) {
-       codificar(codificado, data, n);
+    if (c != '\n') {
+      data[n++] = (char) c;
     }
   }
+  */
   
-
+  codificar(codificado, data, n);
 
   codificado[n]='\0';
-  printf("character %s ", codificado);
+  printf("%s", codificado);
  
   return 0;
 }
