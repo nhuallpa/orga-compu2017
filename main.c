@@ -4,7 +4,7 @@
 *   Alumnos: 
 *           88614 - Nestor Huallpa
 *           88573 - Ariel Martinez
-*           xxxxx - Pablo Sivori
+*           84026 - Pablo Sivori
 */
 
 #include <stdio.h>
@@ -44,6 +44,45 @@ int codificar(char *codificado, const char *data, int tamanio) {
     return p - codificado;
 }
 
+unsigned char* decodificar(const char *msg_b64){
+
+    int length_msg_b64 = strlen(msg_b64); 
+    int size_bytes_sin_padding = (length_msg_b64 * 3) / 4;
+    char* ptr_idx = strstr(msg_b64,"=");
+    int idx_symbol_equal = (ptr_idx)?ptr_idx-msg_b64:0;
+    int count_equals = (idx_symbol_equal!=0)?length_msg_b64 - idx_symbol_equal:0;
+    int size_decode_msg = size_bytes_sin_padding - count_equals;
+
+    unsigned char* decode_msg = malloc(size_decode_msg*sizeof(char));
+    int* idx = malloc(4*sizeof(int));    
+    int idx_decode_msg = 0;
+    int i=0;
+
+    for(;i<length_msg_b64;i=i+4){
+               
+        idx[0] = strchr(basis_64,msg_b64[i]) - basis_64;
+	idx[1] = strchr(basis_64,msg_b64[i+1]) - basis_64;
+	idx[2] = strchr(basis_64,msg_b64[i+2]) - basis_64;
+        idx[3] = strchr(basis_64,msg_b64[i+3]) - basis_64;
+
+        decode_msg[idx_decode_msg++] = (unsigned char)((idx[0] << 2) | (idx[1] >> 4)); 
+	//printf("Valor %i%s%i%s",i,": ",idx[i],"\n");
+        //printf("Valor %i%s%i%s",i+1,": ",idx[i+1],"\n");
+	if(idx[2]<64){
+                //printf("Valor %i%s%i%s",i+2,": ",idx[i+2],"\n");
+                decode_msg[idx_decode_msg++] = (unsigned char) ((idx[1] << 4) | (idx[2] >> 2));
+                if (idx[3] < 64)  {
+                    //printf("Valor %i%s%i%s",i+3,": ",idx[i+3],"\n");
+                    decode_msg[idx_decode_msg++] = (unsigned char) ((idx[2] << 6) | idx[3]);
+                }
+	}
+	
+    }
+    
+    free(idx);	
+    return decode_msg;
+}
+
 int main(int argc, char** argv) {
 
   
@@ -67,8 +106,11 @@ int main(int argc, char** argv) {
   */
   
   codificar(codificado, data, n);
-  printf("%s", codificado);
- 
+  printf("%s%s%s","Valor codificado: ",codificado,"\n");
+  unsigned char* decodificado = decodificar(codificado);
+  printf("%s%s","Valor decodificado: ",decodificado);
+  free(codificado);
+  free(decodificado);
   return 0;
 }
 
