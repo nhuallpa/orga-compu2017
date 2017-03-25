@@ -67,8 +67,6 @@ int main(int argc, char** argv) {
   */
   
   codificar(codificado, data, n);
-
-  codificado[n]='\0';
   printf("%s", codificado);
  
   return 0;
