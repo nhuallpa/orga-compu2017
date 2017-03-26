@@ -13,10 +13,10 @@
 #include <getopt.h>
 
 static const char basis_64[] =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
-static const char* ENCODE = "encode";
-static const char* DECODE = "decode";
+static char* ENCODE = "encode";
+static char* DECODE = "decode";
 
 typedef struct {
        char* accion;
@@ -55,43 +55,41 @@ int codificar(char *codificado, const char *data, int tamanio) {
     return p - codificado;
 }
 
-unsigned char* decodificar(const char *msg_b64){
+int decodificar(FILE* entrada, FILE* salida){
+  
+    unsigned int valorEntero1 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+    unsigned int valorEntero2 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+    unsigned int valorEntero3 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+    unsigned int valorEntero4 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
 
-    int length_msg_b64 = strlen(msg_b64); 
-    int size_bytes_sin_padding = (length_msg_b64 * 3) / 4;
-    char* ptr_idx = strstr(msg_b64,"=");
-    int idx_symbol_equal = (ptr_idx)?ptr_idx-msg_b64:0;
-    int count_equals = (idx_symbol_equal!=0)?length_msg_b64 - idx_symbol_equal:0;
-    int size_decode_msg = size_bytes_sin_padding - count_equals;
+    //printf("%i",valorEntero1); 
+    //printf("%i",valorEntero2); 
+    //printf("%i",valorEntero3); 
+    //printf("%i",valorEntero4); 
+    
+    while(!feof(entrada)&& 
+	 (valorEntero1>=0 && valorEntero1<=63) && (valorEntero2>=0 && valorEntero2<=64) &&
+         (valorEntero3>=0 && valorEntero3<=64) && (valorEntero4>=0 && valorEntero4<=64)) {
+		        
 
-    unsigned char* decode_msg = malloc(size_decode_msg*sizeof(char));
-    int* idx = malloc(4*sizeof(int));    
-    int idx_decode_msg = 0;
-    int i=0;
+        		unsigned char valor1= (unsigned char)((valorEntero1 << 2) | (valorEntero2 >> 4)); 
+			fputc(valor1, salida);
+			if(valorEntero3<64){
+        		  	unsigned char valor2= (unsigned char) ((valorEntero2 << 4) | (valorEntero3 >> 2));
+				fputc(valor2, salida);
+        		        if (valorEntero4 < 64)  {
+        		            unsigned char valor3 = (unsigned char) ((valorEntero3 << 6) | valorEntero4);
+				    fputc(valor3, salida);
+        		        }
+			}
+			valorEntero1 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+		        valorEntero2 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+			valorEntero3 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+        		valorEntero4 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
 
-    for(;i<length_msg_b64;i=i+4){
-               
-        idx[0] = strchr(basis_64,msg_b64[i]) - basis_64;
-	idx[1] = strchr(basis_64,msg_b64[i+1]) - basis_64;
-	idx[2] = strchr(basis_64,msg_b64[i+2]) - basis_64;
-        idx[3] = strchr(basis_64,msg_b64[i+3]) - basis_64;
-
-        decode_msg[idx_decode_msg++] = (unsigned char)((idx[0] << 2) | (idx[1] >> 4)); 
-	//printf("Valor %i%s%i%s",i,": ",idx[i],"\n");
-        //printf("Valor %i%s%i%s",i+1,": ",idx[i+1],"\n");
-	if(idx[2]<64){
-                //printf("Valor %i%s%i%s",i+2,": ",idx[i+2],"\n");
-                decode_msg[idx_decode_msg++] = (unsigned char) ((idx[1] << 4) | (idx[2] >> 2));
-                if (idx[3] < 64)  {
-                    //printf("Valor %i%s%i%s",i+3,": ",idx[i+3],"\n");
-                    decode_msg[idx_decode_msg++] = (unsigned char) ((idx[2] << 6) | idx[3]);
-                }
-	}
-	
     }
     
-    free(idx);	
-    return decode_msg;
+    return 0;
 }
 
 Parametro manejarArgumentosEntrada(int argc, char** argv)
@@ -184,22 +182,22 @@ int main(int argc, char** argv) {
 	char* codificado = (char*)malloc(1500);
 	
 	/* Leer de entrada */
-	FILE* archivoEntrada = fopen(p.entrada, "rb");
+	int isEntradaArchivo = strcmp(p.entrada,"");
+	FILE* archivoEntrada = (isEntradaArchivo!=0)?fopen(p.entrada, "rb"):stdin; //Si la entrada esta vacia lee stdin (teclado)
+
 	if (archivoEntrada == NULL) {
 		fprintf(stderr, "ERROR: NO EXISTE LA ENTRADA.\n");
 		exit (1);
 	}
 
-	int c;
-	while ((c = fgetc(archivoEntrada)) != EOF) 
+	//int c;
+	/*while ((c = fgetc(archivoEntrada)) != EOF) 
 	{
 		if (c != '\n') {
 		  data[n++] = (char) c;
 		}
-	}
+	}*/
 
-	fclose ( archivoEntrada );
-	
 	if ( strcmp(p.accion, ENCODE) == 0 )
 	{
 		printf("Inicia la Codificacion.\n");
@@ -208,27 +206,32 @@ int main(int argc, char** argv) {
 		codificar(codificado, data, n);
 		
 		/* Escribir en salida */
-		FILE* archivoSalida = fopen ( p.salida, "w" );
-		fprintf(archivoSalida, codificado);
+		int isSalidaArchivo = strcmp(p.salida,"");
+		FILE* archivoSalida = (isSalidaArchivo!=0)?fopen ( p.salida, "w" ):stdout;
+		//fprintf(archivoSalida, codificado);
 		
-		fclose 	( archivoSalida );
+		if(isSalidaArchivo!=0){
+			fclose 	( archivoSalida );
+		}
+		
 		free	( data );
 		free	( codificado );
 		
 	} else if ( strcmp(p.accion, DECODE) == 0 ) {
 		
 		printf("Inicia la Decodificacion.\n");
-		
+		int isSalidaArchivo = strcmp(p.salida,"");
+                FILE* archivoSalida = (isSalidaArchivo!=0)?fopen ( p.salida, "w" ):stdout;
 		/* Decodificar entrada */
-		unsigned char* decodificado = decodificar(data);
+		decodificar(archivoEntrada,archivoSalida);
 		
 		/* Escribir en salida */
-		FILE* archivoSalida = fopen ( p.salida, "w" );
-		fprintf(archivoSalida, decodificado);
-		
-		fclose 	( archivoSalida );
+			
+		if(isSalidaArchivo!=0){
+			fclose 	( archivoSalida );
+		}
 		free	( data );
-		free	( decodificado );
+	
 		
 	} else {
 		
@@ -236,6 +239,9 @@ int main(int argc, char** argv) {
 		free	( data );
 		free	( codificado );
 		exit(1);
+	}
+	if(isEntradaArchivo!=0){
+		fclose(archivoEntrada);
 	}
 	
   
