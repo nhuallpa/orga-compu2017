@@ -15,6 +15,9 @@
 static const char basis_64[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+static const char* ENCODE = "encode";
+static const char* DECODE = "decode";
+
 typedef struct {
        char* accion;
        char* entrada;
@@ -112,7 +115,7 @@ Parametro manejarArgumentosEntrada(int argc, char** argv)
 
 
 	Parametro parametro;
-	parametro.accion 	= "encode";
+	parametro.accion 	= ENCODE;
 	parametro.entrada 	= "";
 	parametro.salida 	= ""; 
 
@@ -173,41 +176,69 @@ Parametro manejarArgumentosEntrada(int argc, char** argv)
 
 int main(int argc, char** argv) {
 
-	Parametro p = manejarArgumentosEntrada(argc, argv);  
-	// TODO solo es test ...
-	printf("Opcion a : %s\n",p.accion);
-	printf("Opcion i : %s\n",p.entrada);
-	printf("Opcion o : %s\n",p.salida);
+	Parametro p = manejarArgumentosEntrada(argc, argv);
 	
-/*
-  size_t tamanio_buffer = 1000;
-  size_t n = 0;
-  int c;
-  char* data = (char*)malloc(tamanio_buffer);
-  char* codificado = (char*)malloc(1500);
-  
-  fgets(data, tamanio_buffer, stdin);
-  n = strlen(data);
-   */ 
-  /*FILE *archivoEntrada = fopen("test.txt", "rb");
+	size_t tamanio_buffer = 1000;
+	size_t n = 0;
+	char* data = (char*)malloc(tamanio_buffer);
+	char* codificado = (char*)malloc(1500);
+	
+	/* Leer de entrada */
+	FILE* archivoEntrada = fopen(p.entrada, "rb");
+	if (archivoEntrada == NULL) {
+		fprintf(stderr, "ERROR: NO EXISTE LA ENTRADA.\n");
+		exit (1);
+	}
 
-  while ((c = fgetc(archivoEntrada)) != EOF) 
-  {
-    if (c != '\n') {
-      data[n++] = (char) c;
-    }
-  }
-  */
+	int c;
+	while ((c = fgetc(archivoEntrada)) != EOF) 
+	{
+		if (c != '\n') {
+		  data[n++] = (char) c;
+		}
+	}
+
+	fclose ( archivoEntrada );
+	
+	if ( strcmp(p.accion, ENCODE) == 0 )
+	{
+		printf("Inicia la Codificacion.\n");
+		
+		/* Codificar entrada */
+		codificar(codificado, data, n);
+		
+		/* Escribir en salida */
+		FILE* archivoSalida = fopen ( p.salida, "w" );
+		fprintf(archivoSalida, codificado);
+		
+		fclose 	( archivoSalida );
+		free	( data );
+		free	( codificado );
+		
+	} else if ( strcmp(p.accion, DECODE) == 0 ) {
+		
+		printf("Inicia la Decodificacion.\n");
+		
+		/* Decodificar entrada */
+		unsigned char* decodificado = decodificar(data);
+		
+		/* Escribir en salida */
+		FILE* archivoSalida = fopen ( p.salida, "w" );
+		fprintf(archivoSalida, decodificado);
+		
+		fclose 	( archivoSalida );
+		free	( data );
+		free	( decodificado );
+		
+	} else {
+		
+		fprintf(stderr, "ERROR: SE DEBE INGRESAR UN ARGUMENTO CORRECTO PARA LA OPCION i.\n");
+		free	( data );
+		free	( codificado );
+		exit(1);
+	}
+	
   
-  /*
-  //TODO se queda loopeando sin argumentos ...
-  codificar(codificado, data, n);
-  printf("%s%s%s","Valor codificado: ",codificado,"\n");
-  unsigned char* decodificado = decodificar(codificado);
-  printf("%s%s","Valor decodificado: ",decodificado);
-  free(codificado);
-  free(decodificado);
-  */
   return 0;
 }
 
