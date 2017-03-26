@@ -10,6 +10,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <getopt.h>
+
 static const char basis_64[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -83,9 +85,81 @@ unsigned char* decodificar(const char *msg_b64){
     return decode_msg;
 }
 
+void manejarArgumentosEntrada(int argc, char** argv)
+{
+	int siguiente_opcion;
+
+    /* Una cadena que lista las opciones cortas validas */
+    const char* const op_cortas = "hvioa";
+
+    /* Una estructura de varios arrays describiendo los valores largos */
+    const struct option op_largas[] =
+	{
+      	{ "help",    	no_argument,  		NULL,  'h'},
+      	{ "version",    no_argument,  		NULL,  'V'},
+		{ "input",     	required_argument,  NULL,  'i'},
+		{ "output",    	required_argument,  NULL,  'o'},
+		{ "action",    	optional_argument,  NULL,  'a'},
+      	{ NULL,      	0,  NULL,   0 }
+    };
+
+
+    while (1) {
+        siguiente_opcion = getopt_long (argc, argv, op_cortas, op_largas, NULL);
+        if (siguiente_opcion == -1) break;
+        switch (siguiente_opcion) {     
+            case 'h' :
+            
+                printf("Usage:\n");
+                printf("\ttp0 -h\n");
+                printf("\ttp0 -V\n");
+                printf("\ttp0 [ options ]\n");
+                
+                printf("Options:\n");
+                printf("\t-V, --version       Print version and quit.\n");
+                printf("\t-h, --help          Print this information.\n");
+                printf("\t-i, --input         Location of the input file.\n");
+                printf("\t-o, --output        Location of the output file.\n");
+                printf("\t-a, --action        Program action: encode (default) or decode.\n");
+                
+                printf("Examples:\n");
+                printf("\ttp0 -a encode -i ~/input -o ~/output\n");
+                printf("\ttp0 -a encode\n");
+                exit(0);
+	            break;
+
+            case 'v' :
+                printf("Tp0:Version_0.1:Grupo: Nestor Huallpa, Ariel Martinez, Pablo Sivori \n");
+                exit(0);
+            	break;
+            	
+            case 'i' :
+                printf("Option i\n");
+                // TODO tomar el parametro de la opcion.                
+              	//if (0 != optarg)
+               		//printf(" con argumento %s", optarg);
+                exit(0);
+            	break;
+            	
+            case 'o' :
+                printf("Option o\n");
+                // TODO tomar el parametro de la opcion.
+                exit(0);
+            	break;
+            case 'a' :
+                printf("Option a\n");
+                // TODO tomar el parametro si lo tiene o no de la opcion.
+                exit(0);
+            	break;          	
+        }
+    }
+
+}
+
 int main(int argc, char** argv) {
 
-  
+	manejarArgumentosEntrada(argc, argv);  
+
 
   size_t tamanio_buffer = 1000;
   size_t n = 0;
@@ -95,6 +169,7 @@ int main(int argc, char** argv) {
   
   fgets(data, tamanio_buffer, stdin);
   n = strlen(data);
+  
   /*FILE *archivoEntrada = fopen("test.txt", "rb");
 
   while ((c = fgetc(archivoEntrada)) != EOF) 
@@ -105,12 +180,14 @@ int main(int argc, char** argv) {
   }
   */
   
+  //TODO se queda loopeando ...
   codificar(codificado, data, n);
   printf("%s%s%s","Valor codificado: ",codificado,"\n");
   unsigned char* decodificado = decodificar(codificado);
   printf("%s%s","Valor decodificado: ",decodificado);
   free(codificado);
   free(decodificado);
+  
   return 0;
 }
 
