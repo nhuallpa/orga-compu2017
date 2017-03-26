@@ -15,6 +15,12 @@
 static const char basis_64[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
+typedef struct {
+       char* accion;
+       char* entrada;
+       char* salida;
+} Parametro;
+
 int codificar(char *codificado, const char *data, int tamanio) {
   int i;
   char *p;
@@ -85,29 +91,40 @@ unsigned char* decodificar(const char *msg_b64){
     return decode_msg;
 }
 
-void manejarArgumentosEntrada(int argc, char** argv)
+Parametro manejarArgumentosEntrada(int argc, char** argv)
 {
 	int siguiente_opcion;
+	int option_index;
 
     /* Una cadena que lista las opciones cortas validas */
-    const char* const op_cortas = "hvioa";
+    const char* const op_cortas = "hva:i:o:"; /* "hva::i:o:" */
 
     /* Una estructura de varios arrays describiendo los valores largos */
     const struct option op_largas[] =
 	{
-      	{ "help",    	no_argument,  		NULL,  'h'},
-      	{ "version",    no_argument,  		NULL,  'V'},
-		{ "input",     	required_argument,  NULL,  'i'},
-		{ "output",    	required_argument,  NULL,  'o'},
-		{ "action",    	optional_argument,  NULL,  'a'},
-      	{ NULL,      	0,  NULL,   0 }
+      	{ "help",    	no_argument,  		0,  'h'},
+      	{ "version",    no_argument,  		0,  'V'},
+		{ "action",    	required_argument,  0,  'a'}, /*optional_argument*/
+		{ "input",     	required_argument,  0,  'i'},
+		{ "output",    	required_argument,  0,  'o'},
+      	{ 0, 0, 0, 0 }
     };
 
 
-    while (1) {
-        siguiente_opcion = getopt_long (argc, argv, op_cortas, op_largas, NULL);
-        if (siguiente_opcion == -1) break;
-        switch (siguiente_opcion) {     
+	Parametro parametro;
+	parametro.accion 	= "encode";
+	parametro.entrada 	= "";
+	parametro.salida 	= ""; 
+
+    while (1)
+    {
+        siguiente_opcion = getopt_long (argc, argv, op_cortas, op_largas, &option_index);
+        
+        if (siguiente_opcion == -1) 
+        	break;
+        
+        switch (siguiente_opcion)
+        {
             case 'h' :
             
                 printf("Usage:\n");
@@ -133,34 +150,36 @@ void manejarArgumentosEntrada(int argc, char** argv)
                 exit(0);
             	break;
             	
+            case 'a' :
+                if ( optarg )
+               		parametro.accion = optarg;
+            	break;
+            	
             case 'i' :
-                printf("Option i\n");
-                // TODO tomar el parametro de la opcion.                
-              	//if (0 != optarg)
-               		//printf(" con argumento %s", optarg);
-                exit(0);
+                if ( optarg )
+					parametro.entrada = optarg;
             	break;
             	
             case 'o' :
-                printf("Option o\n");
-                // TODO tomar el parametro de la opcion.
-                exit(0);
+                if ( optarg )
+					parametro.salida = optarg;
             	break;
-            case 'a' :
-                printf("Option a\n");
-                // TODO tomar el parametro si lo tiene o no de la opcion.
-                exit(0);
-            	break;          	
         }
     }
+    
+    return parametro;
 
 }
 
 int main(int argc, char** argv) {
 
-	manejarArgumentosEntrada(argc, argv);  
-
-
+	Parametro p = manejarArgumentosEntrada(argc, argv);  
+	// TODO solo es test ...
+	printf("Opcion a : %s\n",p.accion);
+	printf("Opcion i : %s\n",p.entrada);
+	printf("Opcion o : %s\n",p.salida);
+	
+/*
   size_t tamanio_buffer = 1000;
   size_t n = 0;
   int c;
@@ -169,7 +188,7 @@ int main(int argc, char** argv) {
   
   fgets(data, tamanio_buffer, stdin);
   n = strlen(data);
-  
+   */ 
   /*FILE *archivoEntrada = fopen("test.txt", "rb");
 
   while ((c = fgetc(archivoEntrada)) != EOF) 
@@ -180,14 +199,15 @@ int main(int argc, char** argv) {
   }
   */
   
-  //TODO se queda loopeando ...
+  /*
+  //TODO se queda loopeando sin argumentos ...
   codificar(codificado, data, n);
   printf("%s%s%s","Valor codificado: ",codificado,"\n");
   unsigned char* decodificado = decodificar(codificado);
   printf("%s%s","Valor decodificado: ",decodificado);
   free(codificado);
   free(decodificado);
-  
+  */
   return 0;
 }
 
