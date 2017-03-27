@@ -24,36 +24,54 @@ typedef struct {
        char* salida;
 } Parametro;
 
-int codificar(char *codificado, const char *data, int tamanio) {
-  int i;
-  char *p;
-
-  p = codificado;
-  for (i = 0; i < tamanio - 2; i += 3) {
-    *p++ = basis_64[(data[i] >> 2) & 0x3F];
-    *p++ = basis_64[((data[i] & 0x3) << 4) |
-                    ((int) (data[i + 1] & 0xF0) >> 4)];
-    *p++ = basis_64[((data[i + 1] & 0xF) << 2) |
-                    ((int) (data[i + 2] & 0xC0) >> 6)];
-    *p++ = basis_64[data[i + 2] & 0x3F];
-  }
-  if (i < tamanio) {
-    *p++ = basis_64[(data[i] >> 2) & 0x3F];
-    if (i == (tamanio - 1)) {
-        *p++ = basis_64[((data[i] & 0x3) << 4)];
-        *p++ = '=';
-    }
-    else {
-        *p++ = basis_64[((data[i] & 0x3) << 4) |
-                        ((int) (data[i + 1] & 0xF0) >> 4)];
-        *p++ = basis_64[((data[i + 1] & 0xF) << 2)];
-    }
-    *p++ = '=';
-  }
-
-    *p++ = '\0';
-    return p - codificado;
+/*
+ *  Codifica bloques de 3 bytes 8-bit como
+ *  4 bytes de 6-bit
+ *
+ **/
+static void bloqueToBase64( unsigned char *in, unsigned char *out, int len )
+{
+    out[0] = (unsigned char) basis_64[ (int)(in[0] >> 2) ];
+    out[1] = (unsigned char) basis_64[ (int)(((in[0] & 0x03) << 4) | ((in[1] & 0xf0) >> 4)) ];
+    out[2] = (unsigned char) (len > 1 ? basis_64[ (int)(((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6)) ] : '=');
+    out[3] = (unsigned char) (len > 2 ? basis_64[ (int)(in[2] & 0x3f) ] : '=');
 }
+
+int codificar(FILE* archEntrada, FILE* archSalida) {
+    unsigned char in[3];
+    unsigned char out[4];
+    int i, len = 0;
+    int retcode = 0;
+
+    *in = (unsigned char) 0;
+    *out = (unsigned char) 0;
+    while( feof( archEntrada ) == 0 ) {
+        len = 0;
+        for( i = 0; i < 3; i++ ) {
+            in[i] = (unsigned char) getc( archEntrada );
+
+            if( feof( archEntrada ) == 0 ) {
+                len++;
+            }
+            else {
+                in[i] = (unsigned char) 0;
+            }
+        }
+        if( len > 0 ) {
+            bloqueToBase64( in, out, len );
+            for( i = 0; i < 4; i++ ) {
+                if( putc( (int)(out[i]), archSalida ) == EOF ){
+	            if( ferror( archSalida ) != 0 )      {
+	                   retcode = 1;
+	            }
+		    break;
+		}
+            }
+        }
+    }
+    
+    return retcode;  
+} 
 
 int decodificar(FILE* entrada, FILE* salida){
   
@@ -88,7 +106,7 @@ int decodificar(FILE* entrada, FILE* salida){
         		valorEntero4 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
 
     }
-    
+       
     return 0;
 }
 
@@ -176,75 +194,45 @@ int main(int argc, char** argv) {
 
 	Parametro p = manejarArgumentosEntrada(argc, argv);
 	
-	size_t tamanio_buffer = 1000;
-	size_t n = 0;
-	char* data = (char*)malloc(tamanio_buffer);
-	char* codificado = (char*)malloc(1500);
-	
-	/* Leer de entrada */
-	int isEntradaArchivo = strcmp(p.entrada,"");
+        int isEntradaArchivo = strcmp(p.entrada,"");
+	int isSalidaArchivo = strcmp(p.salida,"");
 	FILE* archivoEntrada = (isEntradaArchivo!=0)?fopen(p.entrada, "rb"):stdin; //Si la entrada esta vacia lee stdin (teclado)
+	FILE* archivoSalida = (isSalidaArchivo!=0)?fopen ( p.salida, "w" ):stdout; //Si la salida esta vacia escribe stdout (pantalla)
+
+	int returnCode = 0;
 
 	if (archivoEntrada == NULL) {
 		fprintf(stderr, "ERROR: NO EXISTE LA ENTRADA.\n");
 		exit (1);
 	}
 
-	//int c;
-	/*while ((c = fgetc(archivoEntrada)) != EOF) 
-	{
-		if (c != '\n') {
-		  data[n++] = (char) c;
-		}
-	}*/
-
 	if ( strcmp(p.accion, ENCODE) == 0 )
 	{
-		printf("Inicia la Codificacion.\n");
-		
 		/* Codificar entrada */
-		codificar(codificado, data, n);
-		
-		/* Escribir en salida */
-		int isSalidaArchivo = strcmp(p.salida,"");
-		FILE* archivoSalida = (isSalidaArchivo!=0)?fopen ( p.salida, "w" ):stdout;
-		//fprintf(archivoSalida, codificado);
-		
-		if(isSalidaArchivo!=0){
-			fclose 	( archivoSalida );
-		}
-		
-		free	( data );
-		free	( codificado );
-		
+		returnCode = codificar(archivoEntrada, archivoSalida);
+				
 	} else if ( strcmp(p.accion, DECODE) == 0 ) {
 		
-		printf("Inicia la Decodificacion.\n");
-		int isSalidaArchivo = strcmp(p.salida,"");
-                FILE* archivoSalida = (isSalidaArchivo!=0)?fopen ( p.salida, "w" ):stdout;
-		/* Decodificar entrada */
-		decodificar(archivoEntrada,archivoSalida);
-		
-		/* Escribir en salida */
-			
-		if(isSalidaArchivo!=0){
-			fclose 	( archivoSalida );
-		}
-		free	( data );
-	
+                /* Decodificar entrada */
+		returnCode = decodificar(archivoEntrada,archivoSalida);
 		
 	} else {
-		
 		fprintf(stderr, "ERROR: SE DEBE INGRESAR UN ARGUMENTO CORRECTO PARA LA OPCION i.\n");
-		free	( data );
-		free	( codificado );
 		exit(1);
 	}
-	if(isEntradaArchivo!=0){
+	
+        /* Cierro los archivos de entrada y salida si no son stdin y stdout */
+        if(isEntradaArchivo!=0){
 		fclose(archivoEntrada);
 	}
+	if(isSalidaArchivo!=0){
+		fclose 	( archivoSalida );
+	}
 	
-  
-  return 0;
+	if(returnCode!=0){ //Hubo un error en la codificación y/o decodificación
+	 	exit(1);
+	} 
+	
+	return returnCode;
 }
 
