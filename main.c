@@ -229,7 +229,7 @@ int main(int argc, char** argv) {
 		fclose 	( archivoSalida );
 	}
 	
-	if(returnCode!=0){ //Hubo un error en la codificación y/o decodificación
+	if(returnCode!=0){ 
 	 	exit(1);
 	} 
 	
