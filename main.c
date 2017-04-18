@@ -126,13 +126,31 @@ int decodificar(FILE* entrada, FILE* salida){
 			    fputc(valor3, salida);
         	}
 		}
-			valorEntero1 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
-		        valorEntero2 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
-			valorEntero3 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
-        		valorEntero4 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
-
-    }
-       
+		valorEntero1 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+        if (ferror(entrada)) {
+           perror("Error leyendo archivo de entrada");
+           retcode = ERROR_DECODIFICANDO;
+           return retcode;
+        }
+		valorEntero2 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+        if (ferror(entrada)) {
+           perror("Error leyendo archivo de entrada");
+           retcode = ERROR_DECODIFICANDO;
+           return retcode;
+        }
+		valorEntero3 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+        if (ferror(entrada)) {
+           perror("Error leyendo archivo de entrada");
+           retcode = ERROR_DECODIFICANDO;
+           return retcode;
+        }
+        valorEntero4 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+        if (ferror(entrada)) {
+           perror("Error leyendo archivo de entrada");
+           retcode = ERROR_DECODIFICANDO;
+           return retcode;
+        }
+    }       
     return retcode;
 }
 
