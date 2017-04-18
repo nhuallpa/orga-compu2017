@@ -75,7 +75,7 @@ int codificar(FILE* archEntrada, FILE* archSalida) {
                     }  
                     break;
                 }
-                }
+            }
         }
     }
     
