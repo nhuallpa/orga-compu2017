@@ -12,6 +12,9 @@
 #include <string.h>
 #include <getopt.h>
 
+#define ERROR_CODIFICANDO  2
+#define ERROR_DECODIFICANDO  3
+
 static const char basis_64[] =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
@@ -50,6 +53,12 @@ int codificar(FILE* archEntrada, FILE* archSalida) {
         for( i = 0; i < 3; i++ ) {
             in[i] = (unsigned char) getc( archEntrada );
 
+            if (ferror(archEntrada)) {
+               perror("Error leyendo archivo de entrada");
+               retcode = ERROR_CODIFICANDO;
+               return retcode;
+            }
+
             if( feof( archEntrada ) == 0 ) {
                 len++;
             }
@@ -60,13 +69,13 @@ int codificar(FILE* archEntrada, FILE* archSalida) {
         if( len > 0 ) {
             bloqueToBase64( in, out, len );
             for( i = 0; i < 4; i++ ) {
-                if( putc( (int)(out[i]), archSalida ) == EOF ){
-	            if( ferror( archSalida ) != 0 )      {
-	                   retcode = 1;
-	            }
-		    break;
-		}
-            }
+                if( putc( (int)(out[i]), archSalida ) == EOF ) {
+                    if( ferror( archSalida ) != 0 )      {
+                           retcode = 1;
+                    }  
+                    break;
+                }
+                }
         }
     }
     
@@ -74,32 +83,49 @@ int codificar(FILE* archEntrada, FILE* archSalida) {
 } 
 
 int decodificar(FILE* entrada, FILE* salida){
-  
+    int retcode = 0;
     unsigned int valorEntero1 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
-    unsigned int valorEntero2 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
-    unsigned int valorEntero3 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
-    unsigned int valorEntero4 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+    if (ferror(entrada)) {
+       perror("Error leyendo archivo de entrada");
+       retcode = ERROR_DECODIFICANDO;
+       return retcode;
+    }
 
-    //printf("%i",valorEntero1); 
-    //printf("%i",valorEntero2); 
-    //printf("%i",valorEntero3); 
-    //printf("%i",valorEntero4); 
+    unsigned int valorEntero2 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+    if (ferror(entrada)) {
+       perror("Error leyendo archivo de entrada");
+       retcode = ERROR_DECODIFICANDO;
+       return retcode;
+    }
+    unsigned int valorEntero3 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+    if (ferror(entrada)) {
+       perror("Error leyendo archivo de entrada");
+       retcode = ERROR_DECODIFICANDO;
+       return retcode;
+    }
+    unsigned int valorEntero4 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
+    if (ferror(entrada)) {
+       perror("Error leyendo archivo de entrada");
+       retcode = ERROR_DECODIFICANDO;
+       return retcode;
+    }
+
     
     while(!feof(entrada)&& 
 	 (valorEntero1>=0 && valorEntero1<=63) && (valorEntero2>=0 && valorEntero2<=64) &&
          (valorEntero3>=0 && valorEntero3<=64) && (valorEntero4>=0 && valorEntero4<=64)) {
 		        
 
-        		unsigned char valor1= (unsigned char)((valorEntero1 << 2) | (valorEntero2 >> 4)); 
-			fputc(valor1, salida);
-			if(valorEntero3<64){
-        		  	unsigned char valor2= (unsigned char) ((valorEntero2 << 4) | (valorEntero3 >> 2));
-				fputc(valor2, salida);
-        		        if (valorEntero4 < 64)  {
-        		            unsigned char valor3 = (unsigned char) ((valorEntero3 << 6) | valorEntero4);
-				    fputc(valor3, salida);
-        		        }
-			}
+        unsigned char valor1= (unsigned char)((valorEntero1 << 2) | (valorEntero2 >> 4)); 
+		fputc(valor1, salida);
+		if(valorEntero3<64){
+          	unsigned char valor2= (unsigned char) ((valorEntero2 << 4) | (valorEntero3 >> 2));
+            fputc(valor2, salida);
+        	if (valorEntero4 < 64)  {
+        	    unsigned char valor3 = (unsigned char) ((valorEntero3 << 6) | valorEntero4);
+			    fputc(valor3, salida);
+        	}
+		}
 			valorEntero1 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
 		        valorEntero2 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
 			valorEntero3 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
@@ -107,7 +133,7 @@ int decodificar(FILE* entrada, FILE* salida){
 
     }
        
-    return 0;
+    return retcode;
 }
 
 Parametro manejarArgumentosEntrada(int argc, char** argv)
@@ -221,8 +247,8 @@ int main(int argc, char** argv) {
 		exit(1);
 	}
 	
-        /* Cierro los archivos de entrada y salida si no son stdin y stdout */
-        if(isEntradaArchivo!=0){
+    /* Cierro los archivos de entrada y salida si no son stdin y stdout */
+    if(isEntradaArchivo!=0){
 		fclose(archivoEntrada);
 	}
 	if(isSalidaArchivo!=0){
