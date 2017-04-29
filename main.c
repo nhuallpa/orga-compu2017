@@ -45,28 +45,26 @@ int codificar(FILE* archEntrada, FILE* archSalida) {
     unsigned char out[4];
     int i, len = 0;
     int retcode = 0;
-
     *in = (unsigned char) 0;
     *out = (unsigned char) 0;
+    len = 0;
+    i = 0;
     while( feof( archEntrada ) == 0 ) {
-        len = 0;
-        for( i = 0; i < 3; i++ ) {
-            in[i] = (unsigned char) getc( archEntrada );
-
-            if (ferror(archEntrada)) {
-               perror("Error leyendo archivo de entrada");
-               retcode = ERROR_CODIFICANDO;
-               return retcode;
-            }
-
-            if( feof( archEntrada ) == 0 ) {
-                len++;
-            }
-            else {
-                in[i] = (unsigned char) 0;
-            }
+        in[i] = (unsigned char) getc( archEntrada );
+        if (ferror(archEntrada)) {
+           perror("Error leyendo archivo de entrada");
+           retcode = ERROR_CODIFICANDO;
+           return retcode;
         }
-        if( len > 0 ) {
+        if( feof( archEntrada ) == 0 ) {
+            len++;
+        }
+        else {
+            in[i] = (unsigned char) 0;
+        }
+        i++;
+        
+        if( len == 3 ) {
             bloqueToBase64( in, out, len );
             for( i = 0; i < 4; i++ ) {
                 if( putc( (int)(out[i]), archSalida ) == EOF ) {
@@ -75,6 +73,19 @@ int codificar(FILE* archEntrada, FILE* archSalida) {
                     }  
                     break;
                 }
+            }
+            len = 0;
+            i = 0;
+        }
+    }
+    if( len > 0 ) {
+        bloqueToBase64( in, out, len );
+        for( i = 0; i < 4; i++ ) {
+            if( putc( (int)(out[i]), archSalida ) == EOF ) {
+                if( ferror( archSalida ) != 0 )      {
+                       retcode = 1;
+                }  
+                break;
             }
         }
     }
