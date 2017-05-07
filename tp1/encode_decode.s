@@ -14,7 +14,7 @@
     +-----------------+
 44  |                 |
     +-----------------+
-40  |                 |
+40  |    read_code    |
     +-----------------+
 36  |    CHAR_READ    |
     +-----------------+
@@ -43,8 +43,11 @@
 #define WRITE_FP_POS           54
 #define WRITE_FILENO_IN        28
 #define WRITE_FILENO_OUT       32
+
+#define VAR_READ_CODE          40  
+#define VAR_RETCODE            24
 #define VAR_LEN                20
-#define VAR_I                16
+#define VAR_I                  16
 
 #define CHAR_READ              32
 
@@ -71,31 +74,67 @@ codificar:
     sw            ra, WRITE_RA_POS(sp)       #save ra      
     sw            $fp, WRITE_FP_POS(sp)      #save fp
     move          $fp, $sp
+    li            t0, 1
+    sw            t0, VAR_READ_CODE($fp)     # read_code = 1
 while:
-    sw            0, VAR_LEN($fp)            # len = 0
+    lw            t0, VAR_READ_CODE($fp)
+    li            t1, 1
+    bne           t0, t1, RETURN_CODE        # while (read_code == 1)
+    sw            $zero, VAR_LEN($fp)        # len = 0
     lw            t1, VAR_LEN($fp)           # t1<---len
-    sw            0, VAR_I($fp)              # i = 0
-    lw            t2, VAR_I($fp)             # t2<---i
+    sw            $zero, VAR_I($fp)          # i = 0
 for:
-    
-    bge           t2, 3, escribir_codificacion
+    lw            t2, VAR_I($fp)             # t2<---i
+    li            t3, 3
+    bge           t2, t3, aplicar_codificacion  # for (int i =0; i< 3; i++)
     sw            a0, WRITE_FILENO_IN($fp)
     sw            a1, WRITE_FILENO_OUT($fp)
     lw            a0, WRITE_FILENO_IN($fp)
-    lw            a1, CHAR_READ($fp)           
-    lw            a2, 1
+    la            a1, buffer_read
+    li            a2, 1
     li            v0, SYS_read                
-    syscall                                    #read
-    beqz          a3, return                   
-    bltz          a3, error_file_in
-    addiu         t0, t0, 1                    #len++
-    ############# SEGUIR ACA
-escribir_codificacion:
+    syscall                                    #read(fileDescriptorEntrada, byte_read, 1);
+    bnez          a3, else_if_uno              # if (read_code == 0)
+    lbu           t5, $zero
+    la            t6, array_in
+    addu          t7, t6, t3                   # t7 <--- *in[i]
+    sb            t5, 0(t7)                    # *t7 <--- byte_read
+    j             continuar_for
+else_if_uno:
+    li            t4, 1
+    bne           a3, t4, else_error_file_in
+    lbu           t5, 0(buffer_read)
+    la            t6, array_in
+    addu          t7, t6, t3                   # t7 <--- *in[i]
+    sb            t5, 0(t7)                    # *t7 <--- byte_read
+    j             continuar_for
+else_error_file_in:
+    li            t4, 1
+    sw            t4, VAR_RETCODE($fp)         # retcode = 1
+    j             return_codificar
+continuar_for:
+    lw            t2, VAR_I($fp)               # t2<---i
+    addiu         t2, t2, 1
+    sw            t2, VAR_I($fp)
+    j             for
+aplicar_codificacion:
+    ## codificar y escribir    
 
-return:
-error_file_in:
 
+return_codificar:
+    move          sp, $fp
+    lw            $fp,  WRITE_FP_POS(sp)
+    lw            gp, WRITE_GP_POS(sp)
+    addu          sp, sp, WRITE_STACK_SIZE
+    j             ra
+    .end          codificar
 
+.data
+.align 2
+buffer_read:      .space 4
+array_out:        .space 4
+array_in:         .space 3
+basis_64:         .byte  'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/','='
 
 
 
