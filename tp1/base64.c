@@ -1,5 +1,5 @@
 #include "base64.h"
-#include <unistd.h>
+
 
 /*
  *  Codifica bloques de 3 bytes 8-bit como
@@ -22,15 +22,13 @@ int codificar(int fileDescriptorEntrada, int fileDescriptorSalida) {
     
     char char_read;
     void *byte_read = &char_read;
-    ssize_t read_code = 0;
-    unsigned int eof = 0;
-    while( eof == 0 ) {
+    ssize_t read_code = 1;
+    while( read_code == 1 ) {
         len = 0;
         for( i = 0; i < 3; i++ ) {
             read_code = read(fileDescriptorEntrada, byte_read, 1);
             if (read_code == 0) {
               out[i] = (unsigned char) 0;
-              eof = 1;
             } else if (read_code == 1) {
               in[i] = *((unsigned char*)byte_read);
               len++; 
