@@ -60,10 +60,10 @@
 
 
 
-.text
-.align 5
-.globl codificar
-.ent codificar
+    .text
+    .align 2
+    .globl codificar
+    .ent codificar
 codificar:
     .frame        $fp, WRITE_STACK_SIZE, ra  
     .set          noreorder
@@ -76,14 +76,14 @@ codificar:
     move          $fp, $sp
     li            t0, 1
     sw            t0, VAR_READ_CODE($fp)     # read_code = 1
-while:
+while_read_code:
     lw            t0, VAR_READ_CODE($fp)
     li            t1, 1
     bne           t0, t1, RETURN_CODE        # while (read_code == 1)
     sw            $zero, VAR_LEN($fp)        # len = 0
     lw            t1, VAR_LEN($fp)           # t1<---len
     sw            $zero, VAR_I($fp)          # i = 0
-for:
+for_entrada:
     lw            t2, VAR_I($fp)             # t2<---i
     li            t3, 3
     bge           t2, t3, aplicar_codificacion  # for (int i =0; i< 3; i++)
@@ -116,11 +116,32 @@ continuar_for:
     lw            t2, VAR_I($fp)               # t2<---i
     addiu         t2, t2, 1
     sw            t2, VAR_I($fp)
-    j             for
+    j             for_entrada
 aplicar_codificacion:
-    ## codificar y escribir    
-
-
+    lw            t2, VAR_LEN($fp)
+    bgtz          t2, aplicar_base64
+    j             while_read_code
+aplicar_base64:                 
+    la            a0, array_in
+    la            a1, array_out
+    lw            a2, VAR_LEN($fp)
+    jal           bloqueToBase64             # VER        
+    sw            $zero, VAR_I($fp)          # i = 0
+for_salida:
+    lw            t2, VAR_I($fp)             # t2<---i
+    li            t4, 4
+    bge           t2, t4, otro_while         # for (int i =0; i< 3; i++)
+    la            a1, array_out
+    addu          t5, t4, t2                 # t5 = out[i]   bloque de salida
+    lw            a0, WRITE_FILENO_OUT($fp)
+    la            a1, t5
+    li            a2, 1
+    li            v0, SYS_write  
+    syscall                                    #write(fileDescriptorSalida, (void*)(&out[i]), 1);
+    addiu         t2, t2, 1
+    j             for_salida
+otro_while:
+    j             while_read_code
 return_codificar:
     move          sp, $fp
     lw            $fp,  WRITE_FP_POS(sp)
@@ -129,14 +150,44 @@ return_codificar:
     j             ra
     .end          codificar
 
-.data
-.align 2
+    .data
+    .align 2
 buffer_read:      .space 4
 array_out:        .space 4
 array_in:         .space 3
 basis_64:         .byte  'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/','='
 
 
+
+
+    +-----------------+
+32  |   fileno_out    |
+    +-----------------+
+28  |   fileno_in     |
+    +-----------------+
+24  |      retcode    |
+    +-----------------+
+20  |        len      |
+    +-----------------+
+16  |        i        |
+    +-----------------+
+12  |                 |
+    +-----------------+
+8   |                 |
+    +-----------------+
+4   |                 |
+    +-----------------+
+0   |                 |
+    +-----------------+
+
+
+
+
+    .text
+    .align 2
+    .globl bloqueToBase64
+    .ent bloqueToBase64
+bloqueToBase64:
 
 
 
