@@ -69,11 +69,11 @@ codificar:
     .set          noreorder
     .cpload       t9
     .set          reorder
-    .cprestore    WRITE_GP_POS
     subu          sp, sp, WRITE_STACK_SIZE      
+    .cprestore    WRITE_GP_POS
     sw            ra, WRITE_RA_POS(sp)       #save ra      
     sw            $fp, WRITE_FP_POS(sp)      #save fp
-    move          $fp, $sp
+    move          $fp, sp
     li            t0, 1
     sw            t0, VAR_READ_CODE($fp)     # read_code = 1
 while_read_code:
@@ -161,15 +161,15 @@ basis_64:         .byte  'A','B','C','D','E','F','G','H','I','J','K','L','M','N'
 
 
     +-----------------+
-32  |   fileno_out    |
+32           len 
     +-----------------+
-28  |   fileno_in     |
+28           out
     +-----------------+
-24  |      retcode    |
+24           in
     +-----------------+
-20  |        len      |
+20  |        gp       |
     +-----------------+
-16  |        i        |
+16  |        fp       |
     +-----------------+
 12  |                 |
     +-----------------+
@@ -188,7 +188,24 @@ basis_64:         .byte  'A','B','C','D','E','F','G','H','I','J','K','L','M','N'
     .globl bloqueToBase64
     .ent bloqueToBase64
 bloqueToBase64:
-
+    .frame $fp, 24, ra
+    .set          noreorder
+    .cpload       t9
+    .set          reorder
+    subu          sp, sp, 24
+    .cprestore    20
+    sw            $fp, 16(sp)
+    move          $fp, sp
+    sw            a0, 24($fp)         # guardo in
+    sw            a1, 28($fp)         # guardo out
+    sw            a1, 32($fp)         # guardo len
+    lbu           $t1, (0)a0          # Leo in[0]
+    srl           $t1, $t1, 2         # Me quedo con los 6 bits mas significativos de in[0].
+    la            $t9, basis_64
+    addu          $t2, $t9, $t1       # Obtengo direccion basis_64 + indice_caracter
+    lbu           $t3, 0($t2)         # Lee codificacion basis_64[indice_caracter]
+    sb            $t3, 0(a1)          # Guardo codificacion en out[0]
+    
 
 
 
