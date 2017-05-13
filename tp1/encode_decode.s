@@ -160,6 +160,7 @@ basis_64:         .byte  'A','B','C','D','E','F','G','H','I','J','K','L','M','N'
 
 
 
+
     +-----------------+
 32           len 
     +-----------------+
@@ -220,7 +221,7 @@ bloqueToBase64:
 
     lw            $t1, 32($fp)        # leo LEN
     li            $t2, 1
-    ble           $t1, $t2, map_igual_2
+    ble           $t1, $t2, map_igual_2  # Saltar si no cumple len > 1
     lbu           $t1, (1)a0          # Leo in[1]
     lbu           $t2, (2)a0          # Leo in[2]
     andi          $t1, $t1, 0x0f
@@ -229,16 +230,37 @@ bloqueToBase64:
     srl           $t2, $t2, 6         # ((in[2] & 0xc0) >> 6))
     or            $t3, $t2, $t2       # (((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6))
 
-    // todo: ver aca
     la            $t9, basis_64
     addu          $t5, $t9, $t3       # Obtengo direccion basis_64 + indice_caracter
     lbu           $t6, 0($t5)         # Lee codificacion basis_64[indice_caracter]
-    sb            $t3, 2(a1)          # Guardo codificacion en out[1]
-    j             guarda
-map_igual_2
-
-
-
+    sb            $t6, 2(a1)          # Guardo codificacion en out[2]
+    j             siguiente_codigo
+map_igual_2:
+    la            $t9, basis_64
+    lbu           $t6, 64($t9)        # Obtengo el caracter '='
+    sb            $t6, 2(a1)          # Guardo codificacion en out[2]
+siguiente_codigo:
+    lw            $t1, 32($fp)        # leo LEN
+    li            $t2, 2
+    ble           $t1, $t2, map_igual_3  # Saltar si no cumple len > 2
+    lbu           $t2, (2)a0          # Leo in[2]
+    andi          $t2, $t2, 0x3f      # Calculo indice = (in[2] & 0x3f)
+    la            $t9, basis_64       # Obtengo 1er dir de basis_64
+    addu          $t9, $t9, $t2       # Obtengo direccion basis_64[indice]
+    lbu           $t6, 0($t9)         # Obtengo codigo basis_64[indice]
+    sb            $t6, 3(a1)          # Guardo codificacion en out[3]
+    j             retornar_bloqueToBase64
+map_igual_3:
+    la            $t9, basis_64
+    lbu           $t6, 64($t9)        # Obtengo el caracter '='
+    sb            $t6, 3(a1)          # Guardo codificacion en out[3]
+retornar_bloqueToBase64:
+    move          sp, $fp
+    lw            $fp, 16(sp)
+    lw            gp, 20(sp)
+    addiu         sp, sp, 24
+    j             ra
+    .end          bloqueToBase64
 
 
 
