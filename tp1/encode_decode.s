@@ -205,9 +205,37 @@ bloqueToBase64:
     addu          $t2, $t9, $t1       # Obtengo direccion basis_64 + indice_caracter
     lbu           $t3, 0($t2)         # Lee codificacion basis_64[indice_caracter]
     sb            $t3, 0(a1)          # Guardo codificacion en out[0]
+    lbu           $t1, (0)a0          # Leo in[0]
+    lbu           $t2, (1)a0          # Leo in[1]
+    andi          $t3, $t1, 0x03      # (in[0] & 0x03)     
+    sll           $t3, $t3, 4         # (in[0] & 0x03) << 4
+    andi          $t4, $t2, 0xf0      # (in[1] & 0xf0)
+    srl           $t4, $t4, 4         # (in[1] & 0xf0) >> 4
+    or            $t4, $t4, $t3       # Concateno dos bits y seis bits extraidos
     
+    la            $t9, basis_64
+    addu          $t5, $t9, $t4       # Obtengo direccion basis_64 + indice_caracter
+    lbu           $t6, 0($t5)         # Lee codificacion basis_64[indice_caracter]
+    sb            $t3, 1(a1)          # Guardo codificacion en out[1]
 
+    lw            $t1, 32($fp)        # leo LEN
+    li            $t2, 1
+    ble           $t1, $t2, map_igual_2
+    lbu           $t1, (1)a0          # Leo in[1]
+    lbu           $t2, (2)a0          # Leo in[2]
+    andi          $t1, $t1, 0x0f
+    sll           $t1, $t1, 2
+    andi          $t2, $t2, 0xc0
+    srl           $t2, $t2, 6         # ((in[2] & 0xc0) >> 6))
+    or            $t3, $t2, $t2       # (((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6))
 
+    // todo: ver aca
+    la            $t9, basis_64
+    addu          $t5, $t9, $t3       # Obtengo direccion basis_64 + indice_caracter
+    lbu           $t6, 0($t5)         # Lee codificacion basis_64[indice_caracter]
+    sb            $t3, 2(a1)          # Guardo codificacion en out[1]
+    j             guarda
+map_igual_2
 
 
 
