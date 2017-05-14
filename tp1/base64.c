@@ -6,7 +6,7 @@
  *  4 bytes de 6-bit
  *
  **/
-void bloqueToBase64( unsigned char *in, unsigned char *out, int len )
+/*void bloqueToBase64( unsigned char *in, unsigned char *out, int len )
 {
     out[0] = (unsigned char) basis_64[ (int)(in[0] >> 2) ];
     out[1] = (unsigned char) basis_64[ (int)(((in[0] & 0x03) << 4) | ((in[1] & 0xf0) >> 4)) ];
@@ -14,7 +14,7 @@ void bloqueToBase64( unsigned char *in, unsigned char *out, int len )
     out[3] = (unsigned char) (len > 2 ? basis_64[ (int)(in[2] & 0x3f) ] : '=');
 }
 
-int codificar(int fileDescriptorEntrada, int fileDescriptorSalida) {
+int base64_encode(int fileDescriptorEntrada, int fileDescriptorSalida) {
     unsigned char in[3];
     unsigned char out[4];
     int i, len = 0;
@@ -50,7 +50,7 @@ int codificar(int fileDescriptorEntrada, int fileDescriptorSalida) {
     }
     
     return retcode;  
-} 
+} */
 
 int decodificar(FILE* entrada, FILE* salida){
     int retcode = 0;

@@ -62,9 +62,9 @@
 
     .text
     .align 2
-    .globl codificar
-    .ent codificar
-codificar:
+    .globl base64_encode
+    .ent base64_encode
+base64_encode:
     .frame        $fp, WRITE_STACK_SIZE, ra  
     .set          noreorder
     .cpload       t9

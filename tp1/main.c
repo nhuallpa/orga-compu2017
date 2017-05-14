@@ -121,7 +121,7 @@ int main(int argc, char** argv) {
 		/* Codificar entrada */
         int fileDescriptorEntrada = fileno(archivoEntrada);
         int fileDescriptorSalida = fileno(archivoSalida);
-		returnCode = codificar(fileDescriptorEntrada, fileDescriptorSalida);
+		returnCode = base64_encode(fileDescriptorEntrada, fileDescriptorSalida);
 				
 	} else if ( strcmp(p.accion, DECODE) == 0 ) {
 		

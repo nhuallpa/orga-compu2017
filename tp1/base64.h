@@ -11,9 +11,9 @@
 
 static const char basis_64[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
-extern const char* errmsg[];
+/*extern const char* errmsg[];*/
 
-int codificar(int fileDescriptorEntrada, int fileDescriptorSalida);
+extern int base64_encode(int fileDescriptorEntrada, int fileDescriptorSalida);
 int decodificar(FILE* entrada, FILE* salida);
 
 #endif
