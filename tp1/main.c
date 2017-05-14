@@ -101,7 +101,6 @@ Parametro manejarArgumentosEntrada(int argc, char** argv)
 }
 
 int main(int argc, char** argv) {
-
 	Parametro p = manejarArgumentosEntrada(argc, argv);
 		
         int isEntradaArchivo = strcmp(p.entrada,"");

@@ -2,13 +2,13 @@
 #include <mips/regdef.h>
 #include <sys/syscall.h>
 
-66
+64
     +-----------------+
-62  |       ra        |
+60  |       ra        |
     +-----------------+
-58  |       gp        |
+56  |       gp        |
     +-----------------+
-54  |       fp        |
+52  |       fp        |
     +-----------------+
 48  |                 |
     +-----------------+
@@ -37,10 +37,10 @@
 0   |                 |
     +-----------------+
 
-#define WRITE_STACK_SIZE       40
-#define WRITE_RA_POS           62
-#define WRITE_GP_POS           58
-#define WRITE_FP_POS           54
+#define WRITE_STACK_SIZE       64
+#define WRITE_RA_POS           60
+#define WRITE_GP_POS           56
+#define WRITE_FP_POS           52
 #define WRITE_FILENO_IN        28
 #define WRITE_FILENO_OUT       32
 

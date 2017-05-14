@@ -9,7 +9,7 @@ CFLAGS  = -Wall -O0
 default: clean bin
 
 bin: 
-	$(CC) $(CFLAGS) -o tp1 *.c *.s -D_VERSION_=\"$(VERSION)\"
+	$(CC) $(CFLAGS) -o tp1 *.c *.S -D_VERSION_=\"$(VERSION)\"
 
 clean:
-	$(RM) tp0
+	$(RM) tp1
