@@ -51,11 +51,11 @@ bloqueToBase64:
     ble           t1, t2, menor_igual_2  # Saltar si no cumple len > 1
     lbu           t1, 1(a0)            # Leo in[1]
     lbu           t2, 2(a0)            # Leo in[2]
-    andi          t1, t1, 0x0f
-    sll           t1, t1, 2
+    andi          t1, t1, 0x0f         # Calculo (in[1] & 0x0f)
+    sll           t1, t1, 2            # Calculo en t1 (in[1] & 0x0f) << 2)
     andi          t2, t2, 0xc0
     srl           t2, t2, 6            # ((in[2] & 0xc0) >> 6))
-    or            t3, t2, t2           # (((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6))
+    or            t3, t1, t2           # (((in[1] & 0x0f) << 2) | ((in[2] & 0xc0) >> 6))
     la            t9, basis_64
     addu          t5, t9, t3           # Obtengo direccion basis_64 + indice_caracter
     lbu           t6, 0(t5)            # Lee codificacion basis_64[indice_caracter]
@@ -75,28 +75,28 @@ siguiente_codigo:
     addu          t9, t9, t2           # Obtengo direccion basis_64[indice]
     lbu           t6, 0(t9)            # Obtengo codigo basis_64[indice]
     sb            t6, 3(a1)            # Guardo codificacion en out[3]
-    j             retornar_bloqueToBase64
+    j             retornar_transform
 menor_igual_3:
     la            t9, basis_64
     lbu           t6, 64(t9)        # Obtengo el caracter '='
     sb            t6, 3(a1)          # Guardo codificacion en out[3]
-retornar_bloqueToBase64:
+retornar_transform:
     move          sp, $fp
     lw            $fp, 16(sp)
     lw            gp, 20(sp)
     addiu         sp, sp, 24
-    j             ra
+    jr             ra
     .end          bloqueToBase64
 
 
 
 
-#define WRITE_STACK_SIZE       64
-#define WRITE_RA_POS           60
-#define WRITE_GP_POS           56
-#define WRITE_FP_POS           52
-#define WRITE_FILENO_IN        28
-#define WRITE_FILENO_OUT       32
+#define ENCODE_STACK_SIZE       64
+#define ENCODE_VAR_RA           60
+#define ENCODE_VAR_GP           56
+#define ENCODE_VAR_FP           52
+#define WRITE_FILENO_IN         28
+#define WRITE_FILENO_OUT        32
 
 #define VAR_READ_CODE          40  
 #define VAR_RETCODE            24
@@ -109,90 +109,102 @@ retornar_bloqueToBase64:
     .globl base64_encode
     .ent base64_encode
 base64_encode:
-    .frame        $fp, WRITE_STACK_SIZE, ra  
+    .frame        $fp, ENCODE_STACK_SIZE, ra  
     .set          noreorder
     .cpload       t9
     .set          reorder
-    subu          sp, sp, WRITE_STACK_SIZE      
-    .cprestore    WRITE_GP_POS
-    sw            ra, WRITE_RA_POS(sp)       #save ra      
-    sw            $fp, WRITE_FP_POS(sp)      #save $fp
+    subu          sp, sp, ENCODE_STACK_SIZE      
+    .cprestore    ENCODE_VAR_GP
+    sw            ra, ENCODE_VAR_RA(sp)       #save ra      
+    sw            $fp, ENCODE_VAR_FP(sp)      #save $fp
     move          $fp, sp
     li            t0, 1
-    sw            t0, 40(sp)     # read_code 
-    sw            zero, 24(sp)     # retcode 
-#  while_read_code:
-#      lw            t0, VAR_READ_CODE($fp)
-#      li            t1, 1
-#      bne           t0, t1, return_codificar        # while (read_code == 1)
-#      sw            zero, VAR_LEN($fp)        # len = 0
-#      lw            t1, VAR_LEN($fp)           # t1<---len
-#      sw            zero, VAR_I($fp)          # i = 0
-#  for_entrada:
-#      lw            t2, VAR_I($fp)             # t2<---i
-#      li            t3, 3
-#      bge           t2, t3, aplicar_codificacion  # for (int i =0; i< 3; i++)
-#      sw            a0, WRITE_FILENO_IN($fp)     # Guardo file descriptor entrada
-#      sw            a1, WRITE_FILENO_OUT($fp)    # Guardo file descriptor salida
-#      lw            a0, WRITE_FILENO_IN($fp)
-#      la            a1, buffer_read
-#      li            a2, 1
-#      li            v0, SYS_read                
-#      syscall                                    #read(fileDescriptorEntrada, byte_read, 1);
-#      bnez          a3, else_if_uno              # if (read_code == 0)
-#      la            t6, array_in
-#      addu          t7, t6, t3                   # t7 <--- *in[i]
-#      sb            zero, 0(t7)                    # *t7 <--- byte_read
-#      j             continuar_for
-#  else_if_uno:
-#      li            t4, 1
-#      bne           a3, t4, else_error_file_in
-#      la            t5, buffer_read
-#      lbu           t5, 0(t5)
-#      la            t6, array_in
-#      addu          t7, t6, t3                   # t7 <--- *in[i]
-#      sb            t5, 0(t7)                    # *t7 <--- byte_read
-#      j             continuar_for
-#  else_error_file_in:
-#      li            t4, 1
-#      sw            t4, VAR_RETCODE($fp)         # retcode = 1
-#      j             return_codificar
-#  continuar_for:
-#      lw            t2, VAR_I($fp)               # t2<---i
-#      addiu         t2, t2, 1
-#      sw            t2, VAR_I($fp)
-#      j             for_entrada
-#  aplicar_codificacion:
-#      lw            t2, VAR_LEN($fp)
-#      bgtz          t2, mapear_base64
-#      j             while_read_code
-#  mapear_base64:                 
-#      la            a0, array_in
-#      la            a1, array_out
-#      lw            a2, VAR_LEN($fp)
-#      jal           bloqueToBase64             # VER        
-#      sw            zero, VAR_I($fp)          # i = 0
-#  for_salida:
-#      lw            t2, VAR_I($fp)             # t2<---i
-#      li            t4, 4
-#      bge           t2, t4, otro_while         # for (int i =0; i< 3; i++)
-#      la            a1, array_out
-#      addu          t5, t4, t2                 # t5 = out[i]   bloque de salida
-#      lw            a0, WRITE_FILENO_OUT($fp)
-#      move          a1, t5
-#      li            a2, 1
-#      li            v0, SYS_write  
-#      syscall                                    #write(fileDescriptorSalida, (void*)(&out[i]), 1);
-#      addiu         t2, t2, 1
-#      j             for_salida
-#  otro_while:
-#      j             while_read_code
+    sw            t0, VAR_READ_CODE(sp)     # read_code 
+    sw            zero, VAR_RETCODE(sp)     # retcode 
+    sw            a0, WRITE_FILENO_IN($fp)     # Guardo file descriptor entrada
+    sw            a1, WRITE_FILENO_OUT($fp)    # Guardo file descriptor salida
+while_read_code:
+    lw            t0, VAR_READ_CODE($fp)        # Leemos codigo retorno de read
+    li            t1, 1                         # Se lee de 1 byte
+    bne           t0, t1, return_codificar      # Mientras se lea un byte - while (read_code == 1)  
+    sw            zero, VAR_LEN($fp)            # len = 0
+    lw            t1, VAR_LEN($fp)              # t1<---len
+    sw            zero, VAR_I($fp)              # Incializamos i = 0 para leer arch entrada
+
+for_entrada:
+    lw            t2, VAR_I($fp)                # Loop for para lectura
+    li            t3, 3                         # Leemos hasta 3 bytes
+    bge           t2, t3, aplicar_codificacion  # Si ya leimos 3, salto a aplicar_codificacion
+    lw            a0, WRITE_FILENO_IN($fp)      # Cargamos parametro 1 file descriptor entrada
+    la            a1, buffer_read               # Cargamos direccion del buffer de lectura
+    li            a2, 1                         # Cargamos longitud de lectura
+    li            v0, SYS_read                  # Cargamos syscall READ
+    syscall                                     # Seria read(fileDescriptorEntrada, byte_read, 1);
+    bnez          v0, else_if_uno               # Si v0 es cero continuo, sino salto a 'else_if_uno'
+    la            t6, array_in                  # v0 fue cero, o sea que no leyo nada
+    lw            t2, VAR_I($fp)                # Tomo valor de I
+    addu          t7, t6, t2                    # Calculo direccion de in[i]
+    sb            zero, 0(t7)                   # Guardo cero en in[i]
+    sw            zero, VAR_READ_CODE($fp)      # Actualizamos codigo retorno de read
+    j             continuar_for                 # vemos si continuamos
+else_if_uno:
+    li            t4, 1                         # Vemos si leimos 1 byte
+    bne           v0, t4, else_error_file_in    # Si no leimos 1 byte, salto por q dio error
+    la            t5, buffer_read               # Cargo la direccion del buffer de lectura
+    lbu           t5, 0(t5)                     # Obtengo el byte leido en t5
+    la            t6, array_in                  # Cargo la direccion del BLOQUE in[]
+    lw            t2, VAR_I($fp)                # Tomo valor de I
+    addu          t7, t6, t2                    # Calculo direccion de in[i]
+    sb            t5, 0(t7)                     # Guardo el dato t5 en in[i]
+    lw            t2, VAR_LEN($fp)              # Leo LEN
+    add           t2, t2, 1                     # Actualizo LEN++
+    sw            t2, VAR_LEN($fp)              # Guardo LEN
+    j             continuar_for                 # Siguiente iteracion
+else_error_file_in:
+    li            t4, 1                         # Cargo codigo de error
+    sw            t4, VAR_RETCODE($fp)          # retcode = 1
+    j             return_codificar
+continuar_for:
+    lw            t2, VAR_I($fp)               # t2<---i
+    addiu         t2, t2, 1                    # i++ para el for de lectura
+    sw            t2, VAR_I($fp)               # Guardo i++
+    j             for_entrada
+
+
+aplicar_codificacion:
+    lw            t2, VAR_LEN($fp)             # Obtenemos cuanto vale len
+    bgtz          t2, mapear_base64            # if len > 0 codificar
+    j             while_read_code
+mapear_base64:                 
+    la            a0, array_in
+    la            a1, array_out
+    lw            a2, VAR_LEN($fp)
+    jal           bloqueToBase64               # Llamamo a bloqueToBase64
+    sw            zero, VAR_I($fp)             # i = 0
+for_salida:
+    lw            t2, VAR_I($fp)               # t2<---i
+    li            t4, 4
+    bge           t2, t4, otro_while           # Itererar para escribir en file desc salida
+    la            t3, array_out                # Leo direccion de 'array_out'
+    addu          t5, t3, t2                   # t5 = out[i]   bloque de salida
+    lbu           t7, 0(t5)                    # ?????????
+    lw            a0, WRITE_FILENO_OUT($fp)
+    move          a1, t5
+    li            a2, 1
+    li            v0, SYS_write  
+    syscall                                    #write(fileDescriptorSalida, (void*)(&out[i]), 1);
+    addiu         t2, t2, 1
+    sw            t2, VAR_I($fp)
+    j             for_salida
+otro_while:                                    # Itero la siguiente terna de bytes
+    j             while_read_code
 return_codificar:
-    lw            v0, VAR_RETCODE(sp)
+    lw            v0, VAR_RETCODE(sp)          # Liberamos el stack frame
     move          sp, $fp
-    lw            $fp,  WRITE_FP_POS(sp)
-    lw            gp, WRITE_GP_POS(sp)
-    addu          sp, sp, WRITE_STACK_SIZE
-    j             ra
+    lw            $fp,  ENCODE_VAR_FP(sp)
+    lw            gp, ENCODE_VAR_GP(sp)
+    lw            ra, ENCODE_VAR_RA(sp)        
+    addu          sp, sp, ENCODE_STACK_SIZE 
+    jr             ra
     .end          base64_encode
 
