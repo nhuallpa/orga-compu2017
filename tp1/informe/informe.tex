@@ -1,0 +1,228 @@
+\documentclass[a4paper,10pt]{article}
+% Paquete para inclusión de gráficos.
+\usepackage{graphicx}
+% Paquete para definir el idioma usado.
+\usepackage[spanish]{babel}
+% Paquete para definir la codificación del conjunto de caracteres usado
+% (latin1 es ISO 8859-1).
+\usepackage[latin1]{inputenc}
+\usepackage{hyperref}
+% Include the listings-package
+\usepackage{listings}  
+\usepackage{pdfpages}
+
+
+% Título principal del documento.
+\title{	\ Trabajo Práctico Nº 1: Conjunto de instrucciones MIPS}
+% Información sobre los autores.
+\author{	Martinez Ariel, \textit{Padrón Nro. 88573}\\
+            \texttt{ arielcorreofiuba@gmail.com.ar }\\\\
+            Nestor Huallpa, \textit{Padrón Nro. 88614}\\
+            \texttt{ huallpa.nestor@gmail.com }\\\\
+			Pablo Sivori, \textit{Padrón Nro. 84026] }\\
+            \texttt{ sivori.daniel@gmail.com }\\\\               
+            \texttt{\footnotesize Entrega: 16/05/2017}\\
+            \\\\\\\\\\\\\\\\\\
+            \normalsize{1er. Cuatrimestre de 2017}\\ 
+            \normalsize{66.20 Organización de Computadoras} \\
+            \normalsize{Facultad de Ingeniería, Universidad de Buenos Aires} \\}
+       
+\date{}
+
+\begin{document}
+% Inserta el título.
+\maketitle
+% quita el número en la primer página
+\thispagestyle{empty}
+% Resumen
+\begin{abstract}
+En el presente trabajo práctico se describirán todos los pasos y 
+conclusiones relacionadas al desarrollo e implementación de la codificacion y decodificacion de datos formateados en base 64.
+\end{abstract}
+\newpage{}
+\tableofcontents
+\newpage{}
+
+\begin{flushleft}
+
+\par\end{flushleft}
+\section{{\normalsize Introducción}}
+
+El objetivo del presente trabajo práctico es implementar las funciones encode y decode de datos  base 64 en código assembly. Para ello nos conectamos con el emulador gxemul para realizar la codificación en mips 32 y posteriormente poder realizar las pruebas pertinentes.
+
+\section{{\normalsize Implementación}}
+
+\subsection{{\normalsize Lenguaje}}
+
+Como lenguaje de implementación se eligió ANSI C
+ya que el mismo permite una alta portabilidad entre diferentes plataformas. 
+El desarrollo del programa se realizó usando un editor de texto 
+(gedit,vim, kwrite) y compilando los archivos fuente con 
+\htmladdnormallink{GCC}{http://gcc.gnu.org/} que viene en linux.
+Para compilar, ejecutar el siguiente comando:
+
+\begin{tabbing}
+------- \= ----- \= \kill
+\> \textbf{\emph{\$ make}}\\ 
+\end{tabbing}
+
+\subsection {{\normalsize Descripción del programa}}
+
+La función \texttt{main} se encuentra en \texttt{tp0.c} 
+y se encarga de interpretar las opciones y argumentos. En caso de ser una opción, 
+como ayuda o versión, se imprime el mensaje correspondiente y finaliza
+la ejecución. Cuando no es una opción de ayuda o versión, se procede 
+a procesar los datos de entrada. La salida de estas funciones proveen 
+un codigo de error que sirve como salida del programa. Los mensajes de 
+versión y ayuda se imprimen por stdout y el programa 
+finaliza devolviendo 0 (cero) al sistema. Los mensajes de error se 
+imprimen por la salida de errores (stderr) y el programa finaliza 
+devolviendo 1 (uno) al sistema.
+
+
+\subsubsection {{\normalsize Errores posibles}}
+
+\begin{enumerate}
+\item El procesamiento de la entrada estándar causó el agotamiento del heap.
+\item La invocación del programa es incorrecta.
+\item Alguno de los archivos es inexistente.
+\item Se produjo un error en la lectura del archivo a decodificar.
+\item Se produjo un error en la escritura del archivo, donde se encuentra el resultado de la decodificación.
+\end{enumerate}
+
+Cuando se produce un error en la codificación o decodificación, se devuelve un código distinto de 0
+el cual sirve como indice para ver la descripción del error, la cual se encuentra en el vector de 
+errores msgerr. En caso de que se devuelva 0, en esta posición el vector msgerr contendrá el mensaje "No hubo errores".
+
+\subsection{{\normalsize Desarrollo de actividades}}
+
+\begin{enumerate}
+\item Se instaló en un linux un repositorio de fuentes 
+\htmladdnormallink{(GIT)}{https://es.wikipedia.org/wiki/Git}
+para que al dividir las tareas del TP se pudiese hacer una unión de
+los cambios ingresados por cada uno de los integrantes más fácilmente. 
+\item Cada persona del grupo se comprometió a que sus cambios en el código
+fuente y los cambios obtenidos del repositorio que pudiesen haber subido los
+otros integrantes del grupo, sean compilados los sistemas operativos Linux y el NetBSD, asegurando así portabilidad entre plataformas planteada en el enunciado. 
+\item Se estableció que todos los integrantes en mayor o menor medida, 
+contribuyan en el desarrollo de todas las partes del código para que 
+nadie quede en desconocimiento de lo que se hizo en cada sección. 
+Una parte se dedico al desarrollo de la función encode, mientras que la otra parte
+se focalizó en el desarrollo de la función decode. De esta manera los integrantes del grupo
+realizaron la programación en codigo assembly de ambas funciones familiarizandose de esta manera
+con el lenguaje. 
+\item Se propuso antes de iniciar el desarrollo de cada función, diagramar los stacks frames de las funciones que utilizan el encode y decode, respetando la convención de la abi dada por la catedra a través de la bibliografía brindada por la misma.
+\item Solo se desarrollo el código assembly de las funciones encode y decode, lo cual para poder generar el resto del codigo assembly a partir del código fuente, 
+dentro de NETBSD, se utilizó gcc con la siguiente opción: 
+	\begin{tabbing}
+	------- \= ----- \= \kill
+	\> \textbf{\emph{gcc -S main.c}}\\ 
+	\end{tabbing}
+\item Para crear el presente informe se debe utilizar el comando make en el directorio informe.
+\end{enumerate}
+
+\newpage{}
+\subsection{{\normalsize Stack Frame de funciones}}
+
+\textbf{\textit{\underline{Función Encode}}}
+\newline
+
+	Para la función encode, se utilizo la función bloqueToBase64 cuyo stack frame es el siguiente:
+	\newline
+	\begin{center}
+		\includegraphics{sf_bloque_to_base64.png}
+	\end{center}
+	
+	La función principal para realizar la codificación del mensaje a base 64 tiene el siguiente 
+	stack frame:	
+	\newline			
+	\begin{center}
+		\includegraphics{sf_encode.png}
+	\end{center}
+
+\textbf{\textit{\underline{Función Decode}}}
+\newline
+
+	Para la función decode, se utilizo la función int search\_b64(char caracter), la cual devuelve
+	la posición en el vector de caracteres base64, del caracter codificado en base 64, utilizado 	
+	para el proceso de decodificación.
+	El stack frame utilizado para dicha función es:
+	\newline
+	\begin{center}
+		\includegraphics{sf_decode_searchb64.png}
+	\end{center}
+	
+	También se utilizó la función read characters, la cual lee los caracteres de un archivo con 	
+	codificación base 64. Su stack frame es:
+	\newline
+	\begin{center}
+		\includegraphics{sf_decode_read_characters.png}
+	\end{center}
+	\newpage{}
+	Finalmente se muestra el stack frame de la función decode:
+	\newline
+	\begin{center}
+		\includegraphics{sf_decode.png}
+	\end{center}
+
+\newpage{}
+\subsection{{\normalsize Casos de prueba}}
+		
+	\begin{enumerate}
+  		\item Codificamos \textbf{Man} ingresando por stdin y devolviendo por stdout \newline \textbf{TWFuCg==} \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{echo Man | ../tp0 -a encode}	  		
+	  	\item Codificamos \textbf{Man} ingresando por stdin. Luego decodificamos por stdout \newline	obteniendo como resultado \textbf{Man}. \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{echo -n Man | ../tp0 | ../tp0 -a decode}
+	  	\item Verificamos bit a bit, obteniendo por stdout \newline \textbf{0000000   x   y   z  \textbackslash n }\newline \textbf{0000004} \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{echo xyz | ../tp0 | ../tp0 -a decode | od -t c}
+	  	\item Codificamos 1024 bytes y chequeamos que no haya más de 76 unidades de longitud. \newline \textbf{El resultado es una secuencia de palabras eQp5CnkK que se repiten 9 veces por linea, teniendo un total de 17 lineas.} \newline \textbf{En la última línea, la secuencia finaliza con las palabras eQp5Cg==}
+	  	\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{yes | head -c 1024 | ../tp0 -a encode}
+		\item Verificamos que la cantidad de bytes decodificados sea 1024. \newline \textbf{1024}
+		\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{yes | head -c 1024 | ../tp0 -a encode | ../tp0 -a decode | wc -c}
+		\item Codificamos el contenido del archivo de \textbf{entrada.txt}, el cual contiene la palabra \textbf{Man}. Guardamos la salida en el archivo \textbf{salida.txt}, el cual contiene como resultado de la codificación \textbf{TWFuCg==}. Luego decodificamos la salida de este archivo y lo mandamos a otro archivo de entrada (\textbf{entrada2.txt}). Vemos que en este último archivo se encuentra la palabra que se había pasado como entrada en el primer archivo, verificandose de esta manera la codificación y decodificación. \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, los siguientes comandos: 
+		\newline \textbf{../tp0 -i entrada.txt -o salida.txt -a encode}
+		\newline \textbf{../tp0 -i salida.txt -o entrada2.txt -a decode}
+		\item Corremos el script \textbf{test\_enunciado.sh}. El programa verifica con diff la codificación, mostrando las diferencias en caso de error. Finalmente esperamos superar la centena de corridas para cortar su ejecución haciendo ctrl+c.
+				
+	\end{enumerate}		
+	
+\newpage
+\section{{\normalsize El código fuente, en lenguaje C}}
+
+	\lstinputlisting[language=C, basicstyle=\tiny]{../main.c}	
+
+\newpage
+\newpage
+\newpage
+
+\section{{\normalsize El código MIPS32 generado por el compilado}}
+
+\lstinputlisting[language={[x86masm]Assembler}, firstline=1, lastline=45, basicstyle=\small]{../base64.S}
+ 
+ 
+\newpage{}
+\section{{\normalsize Conclusiones}}
+
+\begin{enumerate}
+\item La realización completa del TP llevó cierta dificultad al tener que
+realizarlo en el contexto solicitado: alta portabilidad, desarrollo
+en C, funciones en assembly respetando la convención de la ABI e informe hecho en LaTeX. 
+\item En el primer caso la dificultad radicaba en tener configurado 
+y funcionando el GXEmul dentro de un Linux, y lograr que en ambos casos 
+el programa compile y corra sin problemas. 
+\item Tuvimos que invertir tiempo para leer la bibliografía dada por la catedra para respetar
+la convención de la ABI para el desarrollo en assembly de las funciones solicitadas.
+\item En cuanto al trabajo grupal en si mismo, no hubo inconvenientes de
+ningún tipo ya que al ser el grupo relativamente chico y tener conocimiento
+del manejo del versionado de un proyecto ante cambios ingresado por
+los integrantes (por medio del GIT), la introducción de modificaciones
+y correcciones fué fluida. 
+\end{enumerate}
+
+\newpage
+\section{{\normalsize Enunciado del trabajo practico}}
+
+	%\includegraphics[width=0.8\textwidth]{enunciado.pdf}
+	\includepdf[pages={1-},scale=0.75]{enunciado.pdf}
+
+
+\bibliographystyle{plain}
+\nocite{*}
+\end{document}
