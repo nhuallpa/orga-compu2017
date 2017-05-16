@@ -19,14 +19,14 @@
 
 .data
 .align 2
-
+#index:  .byte 1 
 buffer: .space 4 
 buffer_write: .space 4 
 
 .text
 .abicalls
 .align 2
-.global decodificar 
+.globl decodificar 
 .ent decodificar
 
 decodificar:
@@ -36,17 +36,14 @@ decodificar:
 	.set	      reorder
 	subu	      sp, sp, SF_SIZE_DECODIFICAR
 	sw	      ra, SF_DECODIFICAR_RA_POS(sp)
-	#sw	      gp, SF_DECODIFICAR_GP_POS(sp)
 	sw	      $fp, SF_DECODIFICAR_FP_POS(sp) 
-        .cprestore    SF_DECODIFICAR_GP_POS
+    .cprestore    SF_DECODIFICAR_GP_POS
 	move	      $fp, sp
 
 	sw	      a0, 60($fp)
         sw            a1, 64($fp)
 
-	#LEO LOS 4 PRIMEROS CARACTERES
-
-obtener_enteros:
+obtener_enteros:                        #LEO LOS 4 PRIMEROS CARACTERES
 	jal	      read_characters 
 	bnez	      a3,error_lectura
 	li	      t0,4 	
@@ -54,30 +51,28 @@ obtener_enteros:
 	blt	      v0,t0,fin_success #Si la long de caracteres leidos es menor que cuatro 
 
     li            t5, 3             # Contador LEN_OUT de bytes tranformados
-	sw	          t5, 16($fp)
+    sw            t5, 16($fp)
 
-    la            t0, buffer        # El buffer con los 4 bytes leidos
-    sw            t0, 20($fp)
-    sw            t, 20($fp)
+	la	      t0, buffer # El buffer con los 4 elementos
+        sw	      t0, 20($fp)
 
-    lb            t0, 0(t0)         # Leo caracter primera posicion
-    move          a0, t0    
-    jal           search_b64 #Obtengo valorEntero1
-    bnez          a3,error_busqueda
-    move          t1, v0 #Resultado valorEntero 1
-    
+	lb	      t0, 0(t0) #Leo caracter primera posicion
+	move	      a0, t0	
+	jal	      search_b64 #Obtengo valorEntero1
+	bnez	      a3,error_busqueda
+	move	      t1, v0 #Resultado valorEntero 1
+	sw	      t1, 24($fp)
 	
-	lw	          t0, 20($fp)	
-	lb	          t0, 1(t0)         #Leo el segundo caracter
-
+	lw	      t0, 20($fp)	
+	lb	      t0, 1(t0) #Leo el segundo caracter
 	move	      a0, t0
-	jal	          search_b64	
+	jal	      search_b64	
 	bnez	      a3, error_busqueda
 	move	      t1, v0 #Resultado valorEntero 2
-	sw	          t1, 28($fp)
+	sw	      t1, 28($fp)
 
-    lw            t0, 20($fp)
-    lbu           t0, 2(t0)            #Leo el tercer caracter
+	lw	      t0, 20($fp)
+	lb            t0, 2(t0) #Leo el tercer caracter
 
 
     la            t9, basis_64           # levando basis64
@@ -89,7 +84,7 @@ obtener_enteros:
     jal           search_b64
     bnez          a3, error_busqueda
     move          t1, v0 #Resultado valorEntero 3
-    sw            t1, 32($fp)          
+	sw	      t1, 32($fp)	       
     j             leer_cuarto_byte
 descontar_uno:
     lw            t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
@@ -98,19 +93,19 @@ descontar_uno:
 
 
 leer_cuarto_byte:
-	lw	          t0, 20($fp)
+	lw	      t0, 20($fp)
 	lb            t0, 3(t0) #Leo el cuarto caracter
 
     la            t9, basis_64           # levando basis64
     lb            t6, 64(t9)             # Obtengo el caracter '='
     beq           t0, t6, descontar_segundo  # saltar si el caracter leido es =
 
+
     move          a0, t0
     jal           search_b64
     bnez          a3, error_busqueda
     move          t4, v0 #Resultado valorEntero 4 
-	sw	          t4, 36($fp)
-
+	sw	      t4, 36($fp)
     j             continuar_deco
 descontar_segundo:
     lw            t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
@@ -118,6 +113,8 @@ descontar_segundo:
     sw            t5, 16($fp)
 
 continuar_deco:
+
+
 	lw	      t1,24($fp)
 	lw	      t2,28($fp)
 	lw	      t3,32($fp)
@@ -145,7 +142,7 @@ continuar_deco:
 	or	      s0,s0,s1 #valorEntero1<<2 | valorEntero2>>4
 	sb	      s0, 0(t6)
 
-	li	      t5,4
+	li	      t5,4 
 	sll	      s0,t2,t5 #valorEntero2<<4
 	li	      t5,2
 	srl	      s1,t3,t5 #valorEntero3>>2
@@ -157,8 +154,7 @@ continuar_deco:
 	or	      s0,s0,t4 #valorEntero3<<6 | valorEntero4
 	sb	      s0, 8(t6)
 
-
-	la        t6, buffer_write          # Cargamos resultados a escribir
+    la        t6, buffer_write          # Cargamos resultados a escribir
 	lw        a0, 64($fp)               # Vamos por el SEGUNDO caracter del bloque. Leo fd_out
 	move 	  a1, t6                    # Cargo direccion del word a escribit
 	li        a2, 1
@@ -171,6 +167,7 @@ escribir_caracter_dos:
     li        t6, 2
     lw        t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
     blt       t5, t6, obtener_enteros
+
 
     la        t6, buffer_write          # Cargamos resultados a escribir
     lw        a0, 64($fp)               # Vamos por el SEGUNDO caracter del bloque
@@ -196,69 +193,61 @@ escribir_caracter_tres:
 
 	lw           a0, 60($fp)      #restauro a0 (infd)
     lw           a1, 64($fp)      #restauro a1 (outfd)
-
 	j            obtener_enteros
 
 fin_success:
 	li	      v0, 0
 	j	      fin_decodificar
 error_busqueda:	
-	#la	      t0,errmsg
-	#addu	      t0,t0,4
-	#lw	      v0, 0(t0) #Error, no se encontro el caracter en el vector de basis64
 	li	      v0, 1 #Indice 0 donde esta el mensaje de error de busqueda del caracter en el vector de errores
 	j	      fin_decodificar
 error_lectura:
-	#la	      t0,errmsg
-	#addu	      t0,t0,4 	      
-        #lw	      v0, 0(t0) #Error de lectura
 	li 	      v0, 2 #Indice 1 donde esta el mensaje de error de lectura  en el vector de errores
 	j 	      fin_decodificar
 error_escritura:
-	#la	      t0,errmsg
-	#addu	      t0,t0,4
-	#lw	      v0, 4(t0) #Error de escritura
 	li	      v0, 3 #Indice 2 donde esta el mensaje de error de escritura en el vector de errores
 fin_decodificar:
-	#Destruimos el frame
-	lw	      $fp,SF_DECODIFICAR_FP_POS(sp)
+	lw	      $fp,SF_DECODIFICAR_FP_POS(sp)   #Destruimos el frame
 	lw	      gp,SF_DECODIFICAR_GP_POS(sp)
 	lw	      ra,SF_DECODIFICAR_RA_POS(sp)
 	addu	      sp,sp, SF_SIZE_DECODIFICAR
 	jr	      ra
 	.end 	      decodificar
-	.ent read_characters
+	
+
+    .text
+    .abicalls
+    .align 2
+    .globl read_characters
+    .ent read_characters
 read_characters:    
-    	.frame        $fp, SF_SIZE_READCH, ra
-    	.set          noreorder
-    	.cpload       t9
-    	.set          reorder
-    	subu          sp, sp, SF_SIZE_READCH      
-    	sw            $fp, SF_READCH_FP_POS(sp)      #save fp
+	.frame        $fp, SF_SIZE_READCH, ra
+	.set          noreorder
+	.cpload       t9
+	.set          reorder
+	subu          sp, sp, SF_SIZE_READCH      
+	sw            $fp, SF_READCH_FP_POS(sp)      #save fp
 	.cprestore    SF_READCH_GP_POS
 	move 	      $fp, sp			 #fp->sp	
 	
 	sw            a0, 8($fp)                #save arg(infd)
     	sw            a1, 12($fp)                #save arg(outfd)
 
-	#Comienza la lectura del archivo. Leo de a 4 caracteres
-	la   a1, buffer 
+
+	la   a1, buffer            #Comienza la lectura del archivo. Leo de a 4 caracteres
 	li   a2, BUFFER_SIZE   
 	li   v0, SYS_read
 	syscall            # read from file  
-
 	
 read_characters_return:
-        # Destruimos el frame.
 	sw	      a3,20($fp) #Guarda el resultado del read
-
 	lw            gp, SF_READCH_GP_POS(sp)       #restore gp
 	lw            $fp, SF_READCH_FP_POS(sp)      #restore fp
     lw 	      a0, 8($fp)
 	lw	      a1, 12($fp)	
  
-        addu	      sp,sp, SF_SIZE_READCH		      
-    	jr            ra
+    addu	      sp,sp, SF_SIZE_READCH		      
+	jr            ra
 	.end read_characters	
 
 .rdata
