@@ -187,12 +187,17 @@ for_salida:
     bge           t2, t4, otro_while           # Itererar para escribir en file desc salida
     la            t3, array_out                # Leo direccion de 'array_out'
     addu          t5, t3, t2                   # t5 = out[i]   bloque de salida
-    lbu           t7, 0(t5)                    # ?????????
     lw            a0, WRITE_FILENO_OUT($fp)
     move          a1, t5
     li            a2, 1
     li            v0, SYS_write  
     syscall                                    #write(fileDescriptorSalida, (void*)(&out[i]), 1);
+    bgez          v0, siguiente_escritura
+    li            t4, 2                         # Cargo codigo de error
+    sw            t4, VAR_RETCODE($fp)          # retcode = 1
+    j             return_codificar
+siguiente_escritura:
+    lw            t2, VAR_I($fp)               # t2<---i
     addiu         t2, t2, 1
     sw            t2, VAR_I($fp)
     j             for_salida
