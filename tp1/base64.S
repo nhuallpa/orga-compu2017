@@ -123,19 +123,24 @@ obtener_enteros:
 	or	      s0,s0,s1 #valorEntero1<<2 | valorEntero2>>4
 	sb	      s0, 0(t6)
 
-	li	      t5,4 
+	li	      t5,4
+	li	      t7,64 
+        be	      t3,t7,proximo
 	sll	      s0,t2,t5 #valorEntero2<<4
 	li	      t5,2
 	srl	      s1,t3,t5 #valorEntero3>>2
 	or	      s0,s0,s1 #valoreEntero2<<4 | valorEntero3>>2
 	sb	      s0, 4(t6)
 
+proximo:
 	li	      t5,6
+	be	      t4,t7,leer
 	sll	      s0,t3,t5 #valorEntero3<<6
 	or	      s0,s0,t4 #valorEntero3<<6 | valorEntero4
 	sb	      s0, 8(t6)
 
-    la        t6, buffer_write          # Cargamos resultados a escribir
+leer:   
+	la        t6, buffer_write          # Cargamos resultados a escribir
 	lw        a0, 64($fp)               # Vamos por el SEGUNDO caracter del bloque. Leo fd_out
 	move 	  a1, t6                    # Cargo direccion del word a escribit
 	li        a2, 1
