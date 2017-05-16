@@ -12,8 +12,12 @@
 
 extern const char* errmsg[];
 
+//extern int base64_encode(int fileDescriptorEntrada, int fileDescriptorSalida);
+//extern int decodificar(int infd, int outfd);
+
 extern int base64_encode(int fileDescriptorEntrada, int fileDescriptorSalida);
 extern int decodificar(int infd, int outfd);
+
 
 #endif
 

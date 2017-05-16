@@ -134,22 +134,38 @@ obtener_enteros:
 	sll	      s0,t3,t5 #valorEntero3<<6
 	or	      s0,s0,t4 #valorEntero3<<6 | valorEntero4
 	sb	      s0, 8(t6)
-	
-	lw           a0, 64($fp) #pongo en a0 el fd(outfd) 
-	li	     t0, 12 	
-	move 	     a1, t6
-	#la           a1, buffer_write #cargo la dir de buffer en el reg a1
-        la           t1, index
-        #lw           a2, 0(t1)
-        #add          a2, a2, t0
-	move         a2, t0
-        li           v0, SYS_write
-	syscall
 
-	bnez	     a3, error_escritura
-	
-	lw           a0, 60($fp) #restauro a0 (infd)
-        lw           a1, 64($fp) #restauro a1 (outfd)
+    la        t6, buffer_write          # Cargamos resultados a escribir
+	lw        a0, 64($fp)               # Vamos por el SEGUNDO caracter del bloque. Leo fd_out
+	move 	  a1, t6                    # Cargo direccion del word a escribit
+	li        a2, 1
+    li        v0, SYS_write
+	syscall
+    bnez	  a3, error_escritura
+    la        t6, buffer_write          # Cargamos resultados a escribir
+    lw        a0, 64($fp)               # Vamos por el SEGUNDO caracter del bloque
+    addiu     a1, t6, 4                 # Calculo direccion del siguiente word, para escritura
+    li        a2, 1                     # solo imprimimos el primer byte del word
+    li        v0, SYS_write
+    syscall
+    bnez      a3, error_escritura
+    la        t6, buffer_write          # Cargamos resultados a escribir
+    lw        a0, 64($fp)               # Vamos por el TERCER caracter del bloque
+    addiu     a1, t6, 8                 # Calculo direccion del siguiente word, para escritura
+    li        a2, 1                     # solo imprimimos el primer byte del word
+    li        v0, SYS_write
+    syscall
+    bnez      a3, error_escritura                               
+    la        t6, buffer_write          # Cargamos resultados a escribir
+    lw        a0, 64($fp)               # Vamos por el CUARTO caracter del bloque
+    addiu     a1, t6, 12                # Calculo direccion del siguiente word, para escritura
+    li        a2, 1                     # solo imprimimos el primer byte del word
+    li        v0, SYS_write
+    syscall
+    bnez      a3, error_escritura                               
+
+	lw           a0, 60($fp)      #restauro a0 (infd)
+    lw           a1, 64($fp)      #restauro a1 (outfd)
 	j            obtener_enteros
 	#j	     fin_decodificar
 
