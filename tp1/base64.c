@@ -52,7 +52,7 @@ int base64_encode(int fileDescriptorEntrada, int fileDescriptorSalida) {
     return retcode;  
 } */
 
-int decodificar(FILE* entrada, FILE* salida){
+/*int decodificar(FILE* entrada, FILE* salida){
     int retcode = 0;
     unsigned int valorEntero1 = (unsigned int) (strchr(basis_64,fgetc(entrada)) - basis_64);
     if (ferror(entrada)) {
@@ -124,3 +124,4 @@ int decodificar(FILE* entrada, FILE* salida){
     return retcode;
 }
 
+*/
