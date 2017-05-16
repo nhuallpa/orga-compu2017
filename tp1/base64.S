@@ -156,13 +156,6 @@ obtener_enteros:
     li        v0, SYS_write
     syscall
     bnez      a3, error_escritura                               
-    la        t6, buffer_write          # Cargamos resultados a escribir
-    lw        a0, 64($fp)               # Vamos por el CUARTO caracter del bloque
-    addiu     a1, t6, 12                # Calculo direccion del siguiente word, para escritura
-    li        a2, 1                     # solo imprimimos el primer byte del word
-    li        v0, SYS_write
-    syscall
-    bnez      a3, error_escritura                               
 
 	lw           a0, 60($fp)      #restauro a0 (infd)
     lw           a1, 64($fp)      #restauro a1 (outfd)
