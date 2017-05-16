@@ -125,7 +125,9 @@ int main(int argc, char** argv) {
 	} else if ( strcmp(p.accion, DECODE) == 0 ) {
 		
                 /* Decodificar entrada */
-		returnCode = decodificar(archivoEntrada, archivoSalida);
+	int infd = fileno(archivoEntrada);
+	int outfd = fileno(archivoSalida);
+		returnCode = decodificar(infd, outfd);
 		
 	} else {
 		fprintf(stderr, "ERROR: SE DEBE INGRESAR UN ARGUMENTO CORRECTO PARA LA OPCION i.\n");

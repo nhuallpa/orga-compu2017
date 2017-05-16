@@ -1,6 +1,272 @@
 #include <mips/regdef.h>
 #include <sys/syscall.h>
 
+#########FUNCION DECODE###########
+
+#STATICS VAR DEFINITIONS FUNCTION DECODIFICAR
+#define SF_SIZE_DECODIFICAR	  60 
+#define SF_DECODIFICAR_GP_POS     44 
+#define SF_DECODIFICAR_FP_POS     48
+#define SF_DECODIFICAR_RA_POS     52 
+ 
+
+#STATICS VAR DEFINITIONS FUNCTION READ CHARACTERS
+#define SF_SIZE_READCH             8 
+#define SF_READCH_GP_POS           0 
+#define SF_READCH_FP_POS           4 
+
+#define BUFFER_SIZE	           4  
+
+.data
+.align 2
+#index:  .byte 1 
+buffer: .space 4 
+buffer_write: .space 4 
+
+.text
+.abicalls
+.align 2
+.global decodificar 
+.ent decodificar
+
+decodificar:
+	.frame 	      $fp, SF_SIZE_DECODIFICAR, ra
+	.set	      noreorder
+	.cpload	      t9
+	.set	      reorder
+	subu	      sp, sp, SF_SIZE_DECODIFICAR
+	sw	      ra, SF_DECODIFICAR_RA_POS(sp)
+	#sw	      gp, SF_DECODIFICAR_GP_POS(sp)
+	sw	      $fp, SF_DECODIFICAR_FP_POS(sp) 
+        .cprestore    SF_DECODIFICAR_GP_POS
+	move	      $fp, sp
+
+	sw	      a0, 60($fp)
+        sw            a1, 64($fp)
+
+	#LEO LOS 4 PRIMEROS CARACTERES
+
+obtener_enteros:
+	jal	      read_characters 
+	bnez	      a3,error_lectura
+	li	      t0,4 	
+	
+	blt	      v0,t0,fin_success #Si la long de caracteres leidos es menor que cuatro 
+
+	#Para imprimir por pantalla por stdout
+	#move 	      a0, a1
+	#la            a1, buffer #cargo la dir de buffer en el reg a1
+        #la  	      t1, index
+        #lw   	      a2, 0(t1)
+	#add  	      a2, a2, t0 
+        #li   	      v0, SYS_write
+        #syscall        # print values
+
+	la	      t0, buffer # El buffer con los 4 elementos
+        sw	      t0, 20($fp)
+
+	lb	      t0, 0(t0) #Leo caracter primera posicion
+	move	      a0, t0	
+	jal	      search_b64 #Obtengo valorEntero1
+	bnez	      a3,error_busqueda
+	move	      t1, v0 #Resultado valorEntero 1
+	sw	      t1, 24($fp)
+	
+	lw	      t0, 20($fp)	
+	lb	      t0, 1(t0) #Leo el segundo caracter
+	move	      a0, t0
+	jal	      search_b64	
+	bnez	      a3, error_busqueda
+	move	      t1, v0 #Resultado valorEntero 2
+	sw	      t1, 28($fp)
+
+	lw	      t0, 20($fp)
+	lb            t0, 2(t0) #Leo el tercer caracter
+        move          a0, t0
+        jal           search_b64
+        bnez          a3, error_busqueda
+        move          t1, v0 #Resultado valorEntero 3
+	sw	      t1, 32($fp)	       
+
+	lw	      t0, 20($fp)
+	lb            t0, 3(t0) #Leo el cuarto caracter
+        move          a0, t0
+        jal           search_b64
+        bnez          a3, error_busqueda
+        move          t4, v0 #Resultado valorEntero 4 
+	sw	      t4, 36($fp)
+
+	lw	      t1,24($fp)
+	lw	      t2,28($fp)
+	lw	      t3,32($fp)
+	
+	bltz	      t1,fin_decodificar
+	li	      t5,63
+	bgt	      t1,t5,fin_decodificar
+
+	li	      t5,64	
+	bltz          t2,fin_decodificar
+        bgt           t2,t5,fin_decodificar
+	
+	bltz          t3,fin_decodificar
+	bgt           t3,t5,fin_decodificar
+	
+	bltz          t4,fin_decodificar
+        bgt           t4,t5,fin_decodificar
+
+	la            t6, buffer_write
+
+	li	      t5,2
+        sll 	      s0,t1,t5 #valorEntero1<<2
+	li	      t5,4
+	srl	      s1,t2,t5 #valorEntero2>>4
+	or	      s0,s0,s1 #valorEntero1<<2 | valorEntero2>>4
+	sb	      s0, 0(t6)
+
+	li	      t5,4 
+	sll	      s0,t2,t5 #valorEntero2<<4
+	li	      t5,2
+	srl	      s1,t3,t5 #valorEntero3>>2
+	or	      s0,s0,s1 #valoreEntero2<<4 | valorEntero3>>2
+	sb	      s0, 4(t6)
+
+	li	      t5,6
+	sll	      s0,t3,t5 #valorEntero3<<6
+	or	      s0,s0,t4 #valorEntero3<<6 | valorEntero4
+	sb	      s0, 8(t6)
+	
+	lw           a0, 64($fp) #pongo en a0 el fd(outfd) 
+	li	     t0, 12 	
+	move 	     a1, t6
+	#la           a1, buffer_write #cargo la dir de buffer en el reg a1
+        la           t1, index
+        #lw           a2, 0(t1)
+        #add          a2, a2, t0
+	move         a2, t0
+        li           v0, SYS_write
+	syscall
+
+	bnez	     a3, error_escritura
+	
+	lw           a0, 60($fp) #restauro a0 (infd)
+        lw           a1, 64($fp) #restauro a1 (outfd)
+	j            obtener_enteros
+	#j	     fin_decodificar
+
+#restar_256:
+#	subu 	     s0,s0,t5
+#	j	     ra
+
+#	j	      fin_decodificar
+
+#	.ent escribir_caracter
+	
+#escribir_caracter:
+#	.frame	      $fp, SF_SIZE_WRITECH, ra
+#	.set	      noreorder
+#	.cpload	      t9
+#	.set	      reorder
+#	subu	      sp, sp, SF_SIZE_WRITECH
+#	sw	      $fp, SF_WRITECH_FP_POS(SP) #save fp
+#	.cprestore	SF_WRITECH_GP_POS		            	       
+#	move	      $fp, sp 			#fp->sp
+#	sw	      a0, 8($fp)	#save arg(out fd)
+	
+	#Para imprimir por pantalla por stdout
+        #move         a0, a1
+        #la            a1, buffer #cargo la dir de buffer en el reg a1
+        #la           t1, index
+        #lw           a2, 0(t1)
+        #add          a2, a2, t0
+        #li           v0, SYS_write
+        #syscall        # print values
+fin_success:
+	li	      v0, 0
+	j	      fin_decodificar
+error_busqueda:	
+	#la	      t0,errmsg
+	#addu	      t0,t0,4
+	#lw	      v0, 0(t0) #Error, no se encontro el caracter en el vector de basis64
+	li	      v0, 1 #Indice 0 donde esta el mensaje de error de busqueda del caracter en el vector de errores
+	j	      fin_decodificar
+error_lectura:
+	#la	      t0,errmsg
+	#addu	      t0,t0,4 	      
+        #lw	      v0, 0(t0) #Error de lectura
+	li 	      v0, 2 #Indice 1 donde esta el mensaje de error de lectura  en el vector de errores
+	j 	      fin_decodificar
+error_escritura:
+	#la	      t0,errmsg
+	#addu	      t0,t0,4
+	#lw	      v0, 4(t0) #Error de escritura
+	li	      v0, 3 #Indice 2 donde esta el mensaje de error de escritura en el vector de errores
+fin_decodificar:
+	#Destruimos el frame
+	lw	      $fp,SF_DECODIFICAR_FP_POS(sp)
+	lw	      gp,SF_DECODIFICAR_GP_POS(sp)
+	lw	      ra,SF_DECODIFICAR_RA_POS(sp)
+	addu	      sp,sp, SF_SIZE_DECODIFICAR
+	jr	      ra
+	.end 	      decodificar
+	.ent read_characters
+read_characters:    
+    	.frame        $fp, SF_SIZE_READCH, ra
+    	.set          noreorder
+    	.cpload       t9
+    	.set          reorder
+    	subu          sp, sp, SF_SIZE_READCH      
+    	#sw           ra, WRITE_RA_POS(sp)       #save ra      
+    	#sw            gp, SF_READCH_GP_POS(sp)       #save gp
+    	sw            $fp, SF_READCH_FP_POS(sp)      #save fp
+	.cprestore    SF_READCH_GP_POS
+	move 	      $fp, sp			 #fp->sp	
+	
+	sw            a0, 8($fp)                #save arg(infd)
+    	sw            a1, 12($fp)                #save arg(outfd)
+
+	#Comienza la lectura del archivo. Leo de a 4 caracteres
+	la   a1, buffer 
+	li   a2, BUFFER_SIZE   
+	li   v0, SYS_read
+	syscall            # read from file  
+
+	#bnez  a3, read_characters_return #Devuelve en v0 el codigo de error
+	
+	#sw    a1, 16($fp) #guarda en la posicion 32 la direccion del buffer
+	
+	#lw   a0, 12($fp) 
+	#la   t0, index
+        #lw   a2, 0(t0)
+	#add  a2, a2, 5 
+	#li   v0, SYS_write
+	#syscall             # print values
+	
+read_characters_return:
+        # Destruimos el frame.
+	sw	      a3,20($fp) #Guarda el resultado del read
+	#lw            ra, WRITE_RA_POS(sp)       #restore ra
+    	lw            gp, SF_READCH_GP_POS(sp)       #restore gp
+    	lw            $fp, SF_READCH_FP_POS(sp)      #restore fp
+        lw 	      a0, 8($fp)
+	lw	      a1, 12($fp)	
+ 
+        addu	      sp,sp, SF_SIZE_READCH		      
+    	jr            ra
+	.end read_characters	
+
+.rdata
+.align 2
+errmsg: .word msg_error_success, msg_error_busqueda, msg_error_lectura, msg_error_escritura
+.align 0
+msg_error_success: .asciiz "No hubo errores en la decodificacion."
+msg_error_busqueda: .asciiz "Hubo un error en la busqueda del caracter a decodificar."
+msg_error_lectura: .asciiz "Hubo un error en la lectura del archivo a decodificar."
+msg_error_escritura: .asciiz "Hubo un error en la escritura del archivo para la decodificacion."
+
+#########FIN FUNCION DECODE###########
+
+#########FUNCION ENCODE###########
+
     .data
     .align 2
 buffer_read:      .space 4
@@ -207,4 +473,6 @@ return_codificar:
     addu          sp, sp, ENCODE_STACK_SIZE 
     jr             ra
     .end          base64_encode
+
+#########FIN FUNCION ENCODE###########
 
