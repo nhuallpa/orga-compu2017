@@ -4,10 +4,10 @@
 
 #include <mips/regdef.h>
 
-#define SIZE_SF_SEARCH_B64 20
-#define LOCATE_FP_SF_SEARCH_B64 16
-#define LOCATE_ARG0_SF_SEARCH_B64 20
-#define LOCATE_ARG3_SF_SEARCH_B64 32
+#define SIZE_SF_SEARCH_B64 8 
+#define LOCATE_FP_SF_SEARCH_B64 4 
+#define LOCATE_ARG0_SF_SEARCH_B64 8 
+#define LOCATE_ARG3_SF_SEARCH_B64 20 
 #define RETURN_SUCCESS	0
 #define RETURN_ERROR	-1  	
 
@@ -30,10 +30,10 @@ search_b64:
 	# Use v0 for the result.
 	#
 	li	v0, 0 
-	li      t2, 65 #Para saber si no esta en el array el caracter buscado 
+	li      t2, 66 #Para saber si no esta en el array el caracter buscado 
 	la 	t0, basis64
 search_loop:
-        #la     t1, basis64
+        #la      t1, basis64
         #addu 	t1,t1,t2
         lb	t1,0(t0)
 	#sb	$t1,8(sp)
@@ -41,12 +41,12 @@ search_loop:
 	beq	a0,t1,search_b64_return
 	beq     v0,t2,error_return 
 	addi	t0,t0,1 #Avanzo de a 1 word
-	addi	v0, v0, 1
+	addi	v0, v0, 1 
 	j	search_loop
 
 search_b64_return:
 	li	a3,RETURN_SUCCESS #Success
-	sw	a3,32($fp)
+	sw	a3,20($fp)
 	#li	t3,65
 	#subu	v0,t3,v0
 	j	destroy_frame
@@ -63,6 +63,7 @@ destroy_frame:
         #li	v0, 2 
 	#li 	a0, 1
         #syscall 
+       # move    sp,$fp
 	lw	$fp, LOCATE_FP_SF_SEARCH_B64(sp)
 	lw	a0, LOCATE_ARG0_SF_SEARCH_B64(sp)
 	lw	a3, LOCATE_ARG3_SF_SEARCH_B64(sp)
@@ -78,4 +79,4 @@ fin:
 	.rdata
 	.align 	2 
 
-basis64: .ascii "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+basis64: .asciiz "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="

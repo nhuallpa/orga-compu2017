@@ -4,10 +4,10 @@
 #########FUNCION DECODE###########
 
 #STATICS VAR DEFINITIONS FUNCTION DECODIFICAR
-#define SF_SIZE_DECODIFICAR	  60 
-#define SF_DECODIFICAR_GP_POS     44 
-#define SF_DECODIFICAR_FP_POS     48
-#define SF_DECODIFICAR_RA_POS     52 
+#define SF_SIZE_DECODIFICAR	  56 
+#define SF_DECODIFICAR_GP_POS     40 
+#define SF_DECODIFICAR_FP_POS     44  
+#define SF_DECODIFICAR_RA_POS     48 
  
 
 #STATICS VAR DEFINITIONS FUNCTION READ CHARACTERS
@@ -24,6 +24,25 @@
 buffer: .space 4 
 .align 2
 buffer_write: .space 4 
+.align      2
+basis_64:         .byte  'A','B','C','D','E','F','G','H','I','J','K','L','M','N'
+
+.align 2
+buffer_read:      .space 4
+.align      2
+array_out:        .space 4
+.align      2
+array_in:         .space 3
+
+.rdata
+.align 2
+errmsg: .word msg_error_success, msg_error_busqueda, msg_error_lectura, msg_error_escritura
+.align 2
+msg_error_success: .asciiz "No hubo errores en la decodificacion."
+msg_error_busqueda: .asciiz "Hubo un error en la busqueda del caracter a decodificar."
+msg_error_lectura: .asciiz "Hubo un error en la lectura del archivo a decodificar."
+msg_error_escritura: .asciiz "Hubo un error en la escritura del archivo para la decodificacion."
+
 
 .text
 .abicalls
@@ -39,15 +58,15 @@ decodificar:
 	subu	      sp, sp, SF_SIZE_DECODIFICAR
 	sw	      ra, SF_DECODIFICAR_RA_POS(sp)
 	sw	      $fp, SF_DECODIFICAR_FP_POS(sp) 
-    .cprestore    SF_DECODIFICAR_GP_POS
+        .cprestore    SF_DECODIFICAR_GP_POS
 	move	      $fp, sp
 
-	sw	      a0, 60($fp)
-        sw            a1, 64($fp)
+	sw	      a0, 56($fp)
+        sw            a1, 60($fp)
 
 obtener_enteros:                        #LEO LOS 4 PRIMEROS CARACTERES
-	lw	      a0, 60($fp)
-	lw	      a1, 64($fp)
+	lw	      a0, 56($fp)
+	lw	      a1, 60($fp)
 	jal	      read_characters 
 	bnez	      a3,error_lectura
 	li	      t0,0 
@@ -55,8 +74,8 @@ obtener_enteros:                        #LEO LOS 4 PRIMEROS CARACTERES
 	blt	      v0,t0,error_lectura
 	beqz	      v0,fin_success #Si la long de caracteres leidos es menor que cuatro 
 
-	move           t5,v0
-        #li            t5, 3             # Contador LEN_OUT de bytes tranformados
+        move           t5,v0
+        #li            t5, 4             # Contador LEN_OUT de bytes tranformados
         sw            t5, 16($fp)
 
 	la	      t0, buffer # El buffer con los 4 elementos
@@ -80,11 +99,9 @@ obtener_enteros:                        #LEO LOS 4 PRIMEROS CARACTERES
 	lw	      t0, 20($fp)
 	lb            t0, 2(t0) #Leo el tercer caracter
 
-
         la            t9, basis_64           # levando basis64
         lb            t6, 64(t9)             # Obtengo el caracter '='
         beq           t0, t6, descontar_uno  # saltar si el caracter leido es =
-
 
         move          a0, t0
         jal           search_b64
@@ -110,7 +127,7 @@ leer_cuarto_byte:
     jal           search_b64
     bnez          a3, error_busqueda
     move          t4, v0 #Resultado valorEntero 4 
-	sw	      t4, 36($fp)
+    sw	          t4, 36($fp)
     j             continuar_deco
 descontar_segundo:
     lw            t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranform
@@ -136,6 +153,7 @@ continuar_deco4:
 	lw            t1,24($fp)
         lw            t2,28($fp)
         lw            t3,32($fp)
+	lw            t4,36($fp)
 
 	bltz          t1,fin_decodificar
         li            t5,63
@@ -223,7 +241,7 @@ continuar_deco2:
 
 escribir_decode:
     	la        t6, buffer_write          # Cargamos resultados a escribir
-	lw        a0, 64($fp)               # Vamos por el SEGUNDO caracter del bloque. Leo fd_out
+	lw        a0, 60($fp)               # Vamos por el SEGUNDO caracter del bloque. Leo fd_out
 	move 	  a1, t6                    # Cargo direccion del word a escribit
 	li        a2, 1
     	li        v0, SYS_write
@@ -234,10 +252,10 @@ escribir_caracter_dos:
 
     li        t6, 2 
     lw        t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
-    blt       t5, t6, obtener_enteros
+    blt       t5, t6, fin_success 
 
     la        t6, buffer_write          # Cargamos resultados a escribir
-    lw        a0, 64($fp)               # Vamos por el SEGUNDO caracter del bloque
+    lw        a0, 60($fp)               # Vamos por el SEGUNDO caracter del bloque
     addiu     a1, t6, 4                 # Calculo direccion del siguiente word, para escritura
     li        a2, 1                     # solo imprimimos el primer byte del word
     li        v0, SYS_write
@@ -248,15 +266,30 @@ escribir_caracter_tres:
     
     li        t6, 3 
     lw        t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
-    blt       t5, t6, obtener_enteros
+    blt       t5, t6, fin_success 
 
     la        t6, buffer_write          # Cargamos resultados a escribir
-    lw        a0, 64($fp)               # Vamos por el TERCER caracter del bloque
+    lw        a0, 60($fp)               # Vamos por el TERCER caracter del bloque
     addiu     a1, t6, 8                 # Calculo direccion del siguiente word, para escritura
     li        a2, 1                     # solo imprimimos el primer byte del word
     li        v0, SYS_write
     syscall
     bnez      a3, error_escritura                               
+
+escribir_caracter_cuatro:  
+    
+    li        t6, 4 
+    lw        t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
+    bne       t5, t6, fin_success
+
+    la        t6, buffer_write          # Cargamos resultados a escribir
+    lw        a0, 60($fp)               # Vamos por el TERCER caracter del bloqu
+    addiu     a1, t6, 12                # Calculo direccion del siguiente word,
+    li        a2, 1                     # solo imprimimos el primer byte del wor
+    li        v0, SYS_write
+    syscall
+    bnez      a3, error_escritura
+
 
     j            obtener_enteros
 
@@ -272,6 +305,7 @@ error_lectura:
 error_escritura:
 	li	      v0, 3 #Indice 2 donde esta el mensaje de error de escritura en el vector de errores
 fin_decodificar:
+#	move	      sp,$fp
 	lw	      $fp,SF_DECODIFICAR_FP_POS(sp)   #Destruimos el frame
 	lw	      gp,SF_DECODIFICAR_GP_POS(sp)
 	lw	      ra,SF_DECODIFICAR_RA_POS(sp)
@@ -305,38 +339,18 @@ read_characters:
 	syscall            # read from file  
 	
 read_characters_return:
+#	move          sp,$fp
 	lw            gp, SF_READCH_GP_POS(sp)       #restore gp
 	lw            $fp, SF_READCH_FP_POS(sp)      #restore fp
         lw 	      a0, 8($fp)
 	lw	      a1, 12($fp)	
- 
-    addu	      sp,sp, SF_SIZE_READCH		      
+        addu	      sp,sp, SF_SIZE_READCH		      
 	jr            ra
 	.end read_characters	
-
-.rdata
-.align 2
-errmsg: .word msg_error_success, msg_error_busqueda, msg_error_lectura, msg_error_escritura
-.align 0
-msg_error_success: .asciiz "No hubo errores en la decodificacion."
-msg_error_busqueda: .asciiz "Hubo un error en la busqueda del caracter a decodificar."
-msg_error_lectura: .asciiz "Hubo un error en la lectura del archivo a decodificar."
-msg_error_escritura: .asciiz "Hubo un error en la escritura del archivo para la decodificacion."
 
 #########FIN FUNCION DECODE###########
 
 #########FUNCION ENCODE###########
-
-    .data
-    .align 2
-buffer_read:      .space 4
-    .align	2
-array_out:        .space 4
-    .align	2
-array_in:         .space 3
-    .align	2
-basis_64:         .byte  'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9','+','/','='
-
 
     .text
     .align 2
