@@ -11,11 +11,12 @@
  
 
 #STATICS VAR DEFINITIONS FUNCTION READ CHARACTERS
-#define SF_SIZE_READCH             8 
-#define SF_READCH_GP_POS           0 
-#define SF_READCH_FP_POS           4 
+#define SF_SIZE_READCH             16
+#define SF_READCH_VAR_I            4  
+#define SF_READCH_GP_POS           8 
+#define SF_READCH_FP_POS           12 
 
-#define BUFFER_SIZE                4  
+#define BUFFER_SIZE                1  
 
 
 .text
@@ -285,11 +286,25 @@ read_characters:
      sw            $fp, SF_READCH_FP_POS(sp)      #save fp
      .cprestore    SF_READCH_GP_POS
      move            $fp, sp                  #fp->sp     
-     sw            a0, 8($fp)                     #save arg(infd)
-     la            a1, buffer                     #Comienza la lectura del archivo. Leo de a 4 caracteres
-     li            a2, BUFFER_SIZE   
+     sw            a0, 16($fp)                     #save arg(infd)
+     sw            zero, SF_READCH_VAR_I($fp)     # i=0
+for_read_decode:
+     la            t0, buffer                # Carga la dir donde guardar
+     lw            t1, SF_READCH_VAR_I($fp)       # Cargo i
+     addu          t0, t0, t1                     # Obtengo dir de buffer[i]
+     lw            a0, 16($fp)
+     move          a1, t0                         
+     li            a2, BUFFER_SIZE                
      li            v0, SYS_read
      syscall                                      # read from file  
+     blez          v0, fin_lectura_deco           # Salto si es menor o igual q 0
+     lw            t0, SF_READCH_VAR_I($fp)       # Cargo i
+     addiu         t0, t0, 1                      # i++
+     sw            t0, SF_READCH_VAR_I($fp)       #Guardo i
+     li            t1, 4
+     blt           t0, t1, for_read_decode        # Salto si i<4
+fin_lectura_deco:
+     lw            v0, SF_READCH_VAR_I($fp)       # Cargo i
      move          sp,$fp
      lw            gp, SF_READCH_GP_POS(sp)       #restore gp
      lw            $fp, SF_READCH_FP_POS(sp)      #restore fp
