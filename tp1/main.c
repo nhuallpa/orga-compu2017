@@ -121,14 +121,12 @@ int main(int argc, char** argv) {
         int fileDescriptorEntrada = fileno(archivoEntrada);
         int fileDescriptorSalida = fileno(archivoSalida);
 		returnCode = base64_encode(fileDescriptorEntrada, fileDescriptorSalida);
-				
+		if (returnCode!=0) fprintf(stderr, "Error: %s \n", errmsg[returnCode]);
 	} else if ( strcmp(p.accion, DECODE) == 0 ) {
-		
-                /* Decodificar entrada */
-	int infd = fileno(archivoEntrada);
-	int outfd = fileno(archivoSalida);
+    	int infd = fileno(archivoEntrada);
+    	int outfd = fileno(archivoSalida);
 		returnCode = decodificar(infd, outfd);
-		
+        if (returnCode!=0) fprintf(stderr, "Error: %s \n", errmsg[returnCode]);
 	} else {
 		fprintf(stderr, "ERROR: SE DEBE INGRESAR UN ARGUMENTO CORRECTO PARA LA OPCION i.\n");
 		exit(1);
@@ -141,10 +139,6 @@ int main(int argc, char** argv) {
 	if(isSalidaArchivo!=0){
 		fclose 	( archivoSalida );
 	}
-	
-	if(returnCode!=0){ 
-	 	exit(1);
-	} 
 	
 	return returnCode;
 }
