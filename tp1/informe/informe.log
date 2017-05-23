@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.16)  22 MAY 2017 22:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2016.5.16)  22 MAY 2017 22:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -885,930 +885,367 @@ File: lstlang2.sty 2015/06/04 1.6 listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang3.sty
 File: lstlang3.sty 2015/06/04 1.6 listings language file
 ) (../base64.S
-LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1.
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 41--42
-[][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 47--48
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (121.20154pt too wide) in paragraph at lines 50--52
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (143.40161pt too wide) in paragraph at lines 52--53
+Overfull \hbox (14.34094pt too wide) in paragraph at lines 52--53
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (65.70135pt too wide) in paragraph at lines 53--55
+Overfull \hbox (42.92488pt too wide) in paragraph at lines 55--56
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
+
+Overfull \hbox (6.1741pt too wide) in paragraph at lines 88--89
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 55.
+(babel)             in language  on input line 97.
 [11]
-Overfull \hbox (182.25174pt too wide) in paragraph at lines 55--56
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (32.40125pt too wide) in paragraph at lines 56--58
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (49.0513pt too wide) in paragraph at lines 58--59
-[][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (15.75119pt too wide) in paragraph at lines 62--63
-[][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (15.75119pt too wide) in paragraph at lines 66--67
-[][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (15.75119pt too wide) in paragraph at lines 70--71
-[][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (4.65115pt too wide) in paragraph at lines 74--76
-[][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (21.30121pt too wide) in paragraph at lines 77--78
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (71.25137pt too wide) in paragraph at lines 78--80
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (15.75119pt too wide) in paragraph at lines 83--84
-[][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (121.20154pt too wide) in paragraph at lines 87--88
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (132.30157pt too wide) in paragraph at lines 88--89
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (21.30121pt too wide) in paragraph at lines 96--97
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (93.45145pt too wide) in paragraph at lines 97--99
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (99.00146pt too wide) in paragraph at lines 106--107
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (87.90143pt too wide) in paragraph at lines 107--108
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 108.
+(babel)             in language  on input line 196.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 108.
-[12]
-Overfull \hbox (60.15134pt too wide) in paragraph at lines 115--116
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 116--118
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 119--121
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 122--124
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 148.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 162.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 162.
-[13]
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 215--216
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 216.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 216.
-[14]
-Overfull \hbox (198.9018pt too wide) in paragraph at lines 216--217
+(babel)             in language  on input line 196.
+ [12]
+Overfull \hbox (55.17514pt too wide) in paragraph at lines 216--217
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 217--218
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (121.20154pt too wide) in paragraph at lines 226--227
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 228--229
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (132.30157pt too wide) in paragraph at lines 229--230
+Overfull \hbox (6.1741pt too wide) in paragraph at lines 229--230
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (198.9018pt too wide) in paragraph at lines 230--231
+Overfull \hbox (55.17514pt too wide) in paragraph at lines 230--231
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (126.75156pt too wide) in paragraph at lines 231--232
+Overfull \hbox (2.09068pt too wide) in paragraph at lines 231--232
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (121.20154pt too wide) in paragraph at lines 239--240
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 242--243
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (126.75156pt too wide) in paragraph at lines 243--244
+Overfull \hbox (2.09068pt too wide) in paragraph at lines 243--244
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (198.9018pt too wide) in paragraph at lines 244--245
+Overfull \hbox (55.17514pt too wide) in paragraph at lines 244--245
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (126.75156pt too wide) in paragraph at lines 245--246
+Overfull \hbox (2.09068pt too wide) in paragraph at lines 245--246
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (276.60205pt too wide) in paragraph at lines 258--259
+Overfull \hbox (112.34302pt too wide) in paragraph at lines 258--259
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][] 
  []
 
 
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 261--262
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+Overfull \hbox (59.25856pt too wide) in paragraph at lines 261--262
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
+][][][][][] 
  []
 
 
-Overfull \hbox (210.00183pt too wide) in paragraph at lines 264--265
+Overfull \hbox (63.34198pt too wide) in paragraph at lines 264--265
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][] 
  []
 
-
-Overfull \hbox (37.95126pt too wide) in paragraph at lines 267--268
-[][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 269.
+(babel)             in language  on input line 295.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 269.
-[15]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 288.
-
-Overfull \hbox (21.30121pt too wide) in paragraph at lines 289--290
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (60.15134pt too wide) in paragraph at lines 292--293
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 294--295
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (21.30121pt too wide) in paragraph at lines 299--300
-[][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 300--301
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (10.20117pt too wide) in paragraph at lines 305--306
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 323.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 323.
-[16]
-Overfull \hbox (137.8516pt too wide) in paragraph at lines 343--344
+(babel)             in language  on input line 295.
+[13]
+Overfull \hbox (10.25752pt too wide) in paragraph at lines 343--344
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (243.30194pt too wide) in paragraph at lines 361--363
+Overfull \hbox (87.8425pt too wide) in paragraph at lines 361--363
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-
-Overfull \hbox (87.90143pt too wide) in paragraph at lines 365--366
-[][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 377.
+(babel)             in language  on input line 394.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 377.
-[17]
-Overfull \hbox (154.50165pt too wide) in paragraph at lines 396--397
+(babel)             in language  on input line 394.
+[14]
+Overfull \hbox (22.50778pt too wide) in paragraph at lines 396--397
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][] 
  []
 
 
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 398--399
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (99.00146pt too wide) in paragraph at lines 399--400
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (32.40125pt too wide) in paragraph at lines 400--401
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (82.35141pt too wide) in paragraph at lines 407--409
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (115.65152pt too wide) in paragraph at lines 410--411
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (104.55148pt too wide) in paragraph at lines 411--412
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (32.40125pt too wide) in paragraph at lines 412--413
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 415--416
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (4.65115pt too wide) in paragraph at lines 418--419
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (71.25137pt too wide) in paragraph at lines 419--420
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
-
- []
-
-
-Overfull \hbox (4.65115pt too wide) in paragraph at lines 421--422
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (143.40161pt too wide) in paragraph at lines 422--423
+Overfull \hbox (14.34094pt too wide) in paragraph at lines 422--423
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][] 
  []
 
 
-Overfull \hbox (126.75156pt too wide) in paragraph at lines 424--425
+Overfull \hbox (2.09068pt too wide) in paragraph at lines 424--425
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-
-Overfull \hbox (115.65152pt too wide) in paragraph at lines 425--426
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 426--427
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (10.20117pt too wide) in paragraph at lines 430--431
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 431.
+(babel)             in language  on input line 493.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 431.
-[18]
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 431--432
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 435--436
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (54.60132pt too wide) in paragraph at lines 437--438
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (32.40125pt too wide) in paragraph at lines 438--439
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (71.25137pt too wide) in paragraph at lines 439--440
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (54.60132pt too wide) in paragraph at lines 440--441
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 441--442
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (32.40125pt too wide) in paragraph at lines 446--447
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 485.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 485.
-[19]
-Overfull \hbox (93.45145pt too wide) in paragraph at lines 488--489
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (87.90143pt too wide) in paragraph at lines 489--490
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (93.45145pt too wide) in paragraph at lines 491--492
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (21.30121pt too wide) in paragraph at lines 492--493
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (198.9018pt too wide) in paragraph at lines 493--494
+(babel)             in language  on input line 493.
+[15]
+Overfull \hbox (55.17514pt too wide) in paragraph at lines 493--494
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ] 
  []
 
 
-Overfull \hbox (160.05167pt too wide) in paragraph at lines 496--498
+Overfull \hbox (26.5912pt too wide) in paragraph at lines 496--498
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (49.0513pt too wide) in paragraph at lines 499--500
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 500--501
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (176.70172pt too wide) in paragraph at lines 501--502
+Overfull \hbox (38.84146pt too wide) in paragraph at lines 501--502
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (176.70172pt too wide) in paragraph at lines 502--503
+Overfull \hbox (38.84146pt too wide) in paragraph at lines 502--503
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (154.50165pt too wide) in paragraph at lines 503--504
+Overfull \hbox (22.50778pt too wide) in paragraph at lines 503--504
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (87.90143pt too wide) in paragraph at lines 504--505
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (49.0513pt too wide) in paragraph at lines 505--506
+Overfull \hbox (55.17514pt too wide) in paragraph at lines 506--507
 [][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (198.9018pt too wide) in paragraph at lines 506--507
-[][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (210.00183pt too wide) in paragraph at lines 507--508
+Overfull \hbox (63.34198pt too wide) in paragraph at lines 507--508
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (126.75156pt too wide) in paragraph at lines 508--509
+Overfull \hbox (2.09068pt too wide) in paragraph at lines 508--509
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (15.75119pt too wide) in paragraph at lines 509--510
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 510--511
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 511--512
+Overfull \hbox (2.09068pt too wide) in paragraph at lines 512--513
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (126.75156pt too wide) in paragraph at lines 512--513
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 513--514
-[][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (54.60132pt too wide) in paragraph at lines 515--516
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (165.60168pt too wide) in paragraph at lines 516--517
+Overfull \hbox (30.67462pt too wide) in paragraph at lines 516--517
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ] 
  []
 
 
-Overfull \hbox (154.50165pt too wide) in paragraph at lines 517--518
+Overfull \hbox (22.50778pt too wide) in paragraph at lines 517--518
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (82.35141pt too wide) in paragraph at lines 518--519
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (121.20154pt too wide) in paragraph at lines 519--520
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (15.75119pt too wide) in paragraph at lines 520--521
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 521--522
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (76.80139pt too wide) in paragraph at lines 522--523
+Overfull \hbox (26.5912pt too wide) in paragraph at lines 551--552
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (15.75119pt too wide) in paragraph at lines 524--525
+Overfull \hbox (51.09172pt too wide) in paragraph at lines 558--559
 [][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (37.95126pt too wide) in paragraph at lines 526--527
-[][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (49.0513pt too wide) in paragraph at lines 528--529
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (71.25137pt too wide) in paragraph at lines 533--534
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 539.
-Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 539.
-[20]
-Overfull \hbox (65.70135pt too wide) in paragraph at lines 539--540
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (37.95126pt too wide) in paragraph at lines 540--541
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (60.15134pt too wide) in paragraph at lines 546--547
-[][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (160.05167pt too wide) in paragraph at lines 551--552
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (82.35141pt too wide) in paragraph at lines 552--553
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (4.65115pt too wide) in paragraph at lines 553--554
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
- []
-
-
-Overfull \hbox (193.35178pt too wide) in paragraph at lines 558--559
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (49.0513pt too wide) in paragraph at lines 560--561
-[][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (110.1015pt too wide) in paragraph at lines 568--569
-[][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (60.15134pt too wide) in paragraph at lines 571--572
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (1253.40527pt too wide) in paragraph at lines 588--590
+Overfull \hbox (51.09172pt too wide) in paragraph at lines 588--589
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+[][] 
+ []
+
+
+Overfull \hbox (55.17514pt too wide) in paragraph at lines 589--590
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (51.09172pt too wide) in paragraph at lines 590--591
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
-][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand <<
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand >>
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "=
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "~
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "!
-(babel)             in language  on input line 592.
+(babel)             in language  on input line 593.
 Package babel Info: Redefining spanish shorthand "?
-(babel)             in language  on input line 592.
-[21]
-Overfull \hbox (615.15317pt too wide) in paragraph at lines 598--599
-[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+(babel)             in language  on input line 593.
+[16]
+Overfull \hbox (47.0083pt too wide) in paragraph at lines 601--602
+[][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (43.50128pt too wide) in paragraph at lines 600--601
-[][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (38.84146pt too wide) in paragraph at lines 602--603
+[][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (154.50165pt too wide) in paragraph at lines 601--602
+Overfull \hbox (22.50778pt too wide) in paragraph at lines 605--606
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (137.8516pt too wide) in paragraph at lines 602--603
+Overfull \hbox (10.25752pt too wide) in paragraph at lines 606--607
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (210.00183pt too wide) in paragraph at lines 603--604
+Overfull \hbox (63.34198pt too wide) in paragraph at lines 607--608
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (176.70172pt too wide) in paragraph at lines 604--605
+Overfull \hbox (38.84146pt too wide) in paragraph at lines 608--609
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (215.55185pt too wide) in paragraph at lines 605--606
+Overfull \hbox (67.4254pt too wide) in paragraph at lines 609--610
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 )
-Overfull \hbox (115.65152pt too wide) in paragraph at lines 606--197
-[][][][][][][][][][][][][][][][][][][][][][] 
- []
-
 Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 200.
 Package babel Info: Redefining spanish shorthand >>
@@ -1833,7 +1270,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 200.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 200.
-[22]
+ [17]
 Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 201.
 Package babel Info: Redefining spanish shorthand >>
@@ -1870,7 +1307,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 219.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 219.
- [23]
+ [18]
 Package babel Info: Redefining spanish shorthand <<
 (babel)             in language  on input line 220.
 Package babel Info: Redefining spanish shorthand >>
@@ -1883,7 +1320,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 220.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 220.
- <enunciado.pdf, id=972, 597.23125pt x 845.1575pt>
+ <enunciado.pdf, id=952, 597.23125pt x 845.1575pt>
 File: enunciado.pdf Graphic file (type pdf)
 
 <use enunciado.pdf>
@@ -1894,7 +1331,7 @@ File: enunciado.pdf Graphic file (type pdf)
 Package pdftex.def Info: enunciado.pdf used on input line 223.
 (pdftex.def)             Requested size: 597.22978pt x 845.15544pt.
 
-<enunciado.pdf, id=975, page=1, 597.23125pt x 845.1575pt>
+<enunciado.pdf, id=955, page=1, 597.23125pt x 845.1575pt>
 File: enunciado.pdf Graphic file (type pdf)
 
 <use enunciado.pdf, page 1>
@@ -1928,7 +1365,7 @@ Package babel Info: Redefining spanish shorthand "!
 (babel)             in language  on input line 223.
 Package babel Info: Redefining spanish shorthand "?
 (babel)             in language  on input line 223.
- [24]
+ [19]
 File: enunciado.pdf Graphic file (type pdf)
 
 <use enunciado.pdf, page 1>
@@ -1967,8 +1404,8 @@ File: enunciado.pdf Graphic file (type pdf)
 <use enunciado.pdf, page 1>
 Package pdftex.def Info: enunciado.pdf, page1 used on input line 223.
 (pdftex.def)             Requested size: 447.92233pt x 633.86658pt.
- [25 <./enunciado.pdf>]
-<enunciado.pdf, id=1008, page=2, 597.23125pt x 845.1575pt>
+ [20 <./enunciado.pdf>]
+<enunciado.pdf, id=988, page=2, 597.23125pt x 845.1575pt>
 File: enunciado.pdf Graphic file (type pdf)
 
 <use enunciado.pdf, page 2>
@@ -2007,8 +1444,8 @@ File: enunciado.pdf Graphic file (type pdf)
 <use enunciado.pdf, page 2>
 Package pdftex.def Info: enunciado.pdf, page2 used on input line 223.
 (pdftex.def)             Requested size: 447.92233pt x 633.86658pt.
- [26 <./enunciado.pdf>]
-<enunciado.pdf, id=1013, page=3, 597.23125pt x 845.1575pt>
+ [21 <./enunciado.pdf>]
+<enunciado.pdf, id=993, page=3, 597.23125pt x 845.1575pt>
 File: enunciado.pdf Graphic file (type pdf)
 
 <use enunciado.pdf, page 3>
@@ -2047,7 +1484,7 @@ File: enunciado.pdf Graphic file (type pdf)
 <use enunciado.pdf, page 3>
 Package pdftex.def Info: enunciado.pdf, page3 used on input line 223.
 (pdftex.def)             Requested size: 447.92233pt x 633.86658pt.
- [27 <./enunciado.pdf>]
+ [22 <./enunciado.pdf>]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 228.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 228.
  (./informe.aux
@@ -2061,13 +1498,13 @@ Package rerunfilecheck Info: File `informe.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 228.
  ) 
 Here is how much of TeX's memory you used:
- 11036 strings out of 494850
- 155341 string characters out of 6178024
- 302772 words of memory out of 5000000
- 13392 multiletter control sequences out of 15000+600000
- 12558 words of font info for 44 fonts, out of 8000000 for 9000
+ 11026 strings out of 494850
+ 155273 string characters out of 6178024
+ 347772 words of memory out of 5000000
+ 13386 multiletter control sequences out of 15000+600000
+ 11600 words of font info for 41 fonts, out of 8000000 for 9000
  62 hyphenation exceptions out of 8191
- 41i,19n,52p,673b,2304s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,19n,52p,673b,2294s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbsy10.pfb></u
 sr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
 re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/tex
@@ -2076,23 +1513,20 @@ xmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmbxsl10.pfb></usr/share/texlive/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmbxti10.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
-ublic/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmti9.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
-/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmtt8.pfb>
-Output written on informe.pdf (27 pages, 387833 bytes).
+ublic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
+5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/tex
+live/texmf-dist/fonts/type1/public/amsfonts/cm/cmti7.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on informe.pdf (22 pages, 354955 bytes).
 PDF statistics:
- 1250 PDF objects out of 1440 (max. 8388607)
- 1176 compressed objects within 12 object streams
- 815 named destinations out of 1000 (max. 500000)
+ 1221 PDF objects out of 1440 (max. 8388607)
+ 1155 compressed objects within 12 object streams
+ 814 named destinations out of 1000 (max. 500000)
  152 words of extra memory for PDF output out of 10000 (max. 10000000)
 
