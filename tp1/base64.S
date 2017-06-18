@@ -353,6 +353,7 @@ search_loop:
 search_b64_return:
     li          a3,RETURN_SUCCESS #Success
     sw          a3,20($fp)
+    li          v0,0                                #OK, encontrado
     j           destroy_frame
 
 error_return:

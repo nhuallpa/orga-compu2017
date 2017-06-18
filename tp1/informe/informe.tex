@@ -8,8 +8,16 @@
 \usepackage[latin1]{inputenc}
 \usepackage{hyperref}
 % Include the listings-package
-\usepackage{listings}  
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue}
+}
 \usepackage{pdfpages}
+\usepackage[T1]{fontenc}
+
 
 
 % Título principal del documento.
@@ -83,7 +91,6 @@ devolviendo 1 (uno) al sistema.
 \subsubsection {{\normalsize Errores posibles}}
 
 \begin{enumerate}
-\item El procesamiento de la entrada estándar causó el agotamiento del heap.
 \item La invocación del programa es incorrecta.
 \item Alguno de los archivos es inexistente.
 \item Se produjo un error en la lectura del archivo a decodificar.
@@ -169,16 +176,55 @@ dentro de NETBSD, se utilizó gcc con la siguiente opción:
 \subsection{{\normalsize Casos de prueba}}
 		
 	\begin{enumerate}
-  		\item Codificamos \textbf{Man} ingresando por stdin y devolviendo por stdout \newline \textbf{TWFuCg==} \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{echo Man | ../tp0 -a encode}	  		
-	  	\item Codificamos \textbf{Man} ingresando por stdin. Luego decodificamos por stdout \newline	obteniendo como resultado \textbf{Man}. \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{echo -n Man | ../tp0 | ../tp0 -a decode}
-	  	\item Verificamos bit a bit, obteniendo por stdout \newline \textbf{0000000   x   y   z  \textbackslash n }\newline \textbf{0000004} \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{echo xyz | ../tp0 | ../tp0 -a decode | od -t c}
-	  	\item Codificamos 1024 bytes y chequeamos que no haya más de 76 unidades de longitud. \newline \textbf{El resultado es una secuencia de palabras eQp5CnkK que se repiten 9 veces por linea, teniendo un total de 17 lineas.} \newline \textbf{En la última línea, la secuencia finaliza con las palabras eQp5Cg==}
-	  	\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{yes | head -c 1024 | ../tp0 -a encode}
-		\item Verificamos que la cantidad de bytes decodificados sea 1024. \newline \textbf{1024}
-		\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: \newline \textbf{yes | head -c 1024 | ../tp0 -a encode | ../tp0 -a decode | wc -c}
-		\item Codificamos el contenido del archivo de \textbf{entrada.txt}, el cual contiene la palabra \textbf{Man}. Guardamos la salida en el archivo \textbf{salida.txt}, el cual contiene como resultado de la codificación \textbf{TWFuCg==}. Luego decodificamos la salida de este archivo y lo mandamos a otro archivo de entrada (\textbf{entrada2.txt}). Vemos que en este último archivo se encuentra la palabra que se había pasado como entrada en el primer archivo, verificandose de esta manera la codificación y decodificación. \newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, los siguientes comandos: 
-		\newline \textbf{../tp0 -i entrada.txt -o salida.txt -a encode}
-		\newline \textbf{../tp0 -i salida.txt -o entrada2.txt -a decode}
+  		\item Codificamos \textbf{Man} ingresando por stdin y devolviendo por stdout \newline \textbf{TWFuCg==} 
+  			\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: 
+  			\begin{lstlisting}[language=bash,frame=single]
+echo Man | ../tp1 -a encode
+			\end{lstlisting}
+
+	  	\item Codificamos \textbf{Man} ingresando por stdin. Luego decodificamos por stdout 
+	  		\newline	obteniendo como resultado \textbf{Man}. 
+	  		\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: 
+	  		\begin{lstlisting}[language=bash,frame=single]
+echo -n Man | ../tp1 | ../tp1 -a decode | od -t c
+			\end{lstlisting}
+	  	\item Verificamos bit a bit, obteniendo por stdout 
+	  		\newline \textbf{0000000   x   y   z  \textbackslash n }
+	  		\newline \textbf{0000004} 
+	  		\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: 
+	  		
+\begin{lstlisting}[language=bash,frame=single]
+echo xyz | ../tp1 | ../tp1 -a decode | od -t c
+\end{lstlisting}
+	  	\item Codificamos 1024 bytes y chequeamos que no haya más de 76 unidades de longitud. 
+	  		\newline \textbf{El resultado es una secuencia de palabras eQp5CnkK que se repiten 9 veces por linea, teniendo un total de 17 lineas.}\newline \textbf{En la última línea, la secuencia finaliza con las palabras eQp5Cg==}\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: 
+\begin{lstlisting}[language=bash,frame=single]
+yes | head -c 1024 | ../tp1 -a encode | od -t c
+\end{lstlisting}
+		\item Verificamos que la cantidad de bytes decodificados sea 1024.
+			\newline \textbf{1024}
+			\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, el siguiente comando: 
+		\begin{lstlisting}[language=bash,frame=single, basicstyle=\tiny]
+export ORI=archivo_orig_yes.txt &&
+export RES=archivo_result_yes.txt &&
+yes | head -c 1024 | tee $ORI | ../tp1 | ../tp1 -a decode | tee $RES | wc -c && 
+diff -s $ORI $RES && 
+cat $RES | od -t c
+		\end{lstlisting}
+			\newline Adicionalmente, respaldamos la informacion generada para la entrada y la info resultante en la decodificación para luego verificar que sean iguales. 
+			\newline Resultado obtenido:
+			\newline \textbf{    1024}			
+			\newline \textbf{Files archivo\_orig\_yes.txt and archiv\_result\_yes.txt are identical}			
+			\newline \textbf{0000000    y  \textbackslash n   y  \textbackslash n   y  \textbackslash n   y  \textbackslash n   y  \textbackslash n   y  \textbackslash n   y  \textbackslash n   y  \textbackslash n}	
+			\newline \textbf{*}	
+			\newline \textbf{0002000}	
+		\item Codificamos el contenido del archivo de \textbf{entrada.txt}, el cual contiene la palabra \textbf{Man}. Guardamos la salida en el archivo \textbf{salida.txt}, el cual contiene como resultado de la codificación \textbf{TWFuCg==}. Luego decodificamos la salida de este archivo y lo mandamos a otro archivo de entrada (\textbf{entrada2.txt}). Vemos que en este último archivo se encuentra la palabra que se había pasado como entrada en el primer archivo, verificandose de esta manera la codificación y decodificación. 
+			\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, los siguientes comandos: 
+\begin{lstlisting}[language=bash,frame=single]
+../tp1 -i entrada.txt -o salida.txt -a encode
+../tp1 -i salida.txt -o entrada2.txt -a decode
+diff -s entrada.txt entrada2.txt 
+\end{lstlisting}
 		\item Corremos el script \textbf{test\_enunciado.sh}. El programa verifica con diff la codificación, mostrando las diferencias en caso de error. Finalmente esperamos superar la centena de corridas para cortar su ejecución haciendo ctrl+c.
 				
 	\end{enumerate}		
@@ -192,7 +238,7 @@ dentro de NETBSD, se utilizó gcc con la siguiente opción:
 \newpage
 \newpage
 
-\section{{\normalsize El código MIPS32 generado por el compilado}}
+\section{{\normalsize Funciones de ENCODE/DECODE en código MIPS32}}
 
 \lstinputlisting[language={[x86masm]Assembler}, firstline=1, lastline=610, basicstyle=\tiny]{../base64.S}
  
