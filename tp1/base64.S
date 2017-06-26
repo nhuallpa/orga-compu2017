@@ -53,54 +53,53 @@ obtener_enteros:                        #LEO LOS 4 PRIMEROS CARACTERES
     sw             t5, 16($fp)           # Esta cantidad puede ir de 1 a 3
 
     la             t0, buffer            # Cargo direccion de buffer con los 4 elementos leidos
-    sw             t0, 20($fp)           # Guardo el buffer en stack
+    sw             t0, 20($fp)           # Guardo el buffer en stack, y uso el stack
 
     lb             t0, 0(t0)             #Leo caracter primera posicion
     move           a0, t0     
-    jal            search_b64            #Obtengo valorEntero1
-    bnez           a3,error_busqueda
-    move           t1, v0                #Resultado valorEntero 1
-    sw             t1, 24($fp)
+    jal            search_b64            #Obtengo valorEntero1 (indice) de la tabla base64
+    bltz           v0, error_busqueda
+    sw             v0, 24($fp)           #Resultado valorEntero 1
 
-    lw             t0, 20($fp)     
-    lb             t0, 1(t0)             #Leo el segundo caracter
+    lw             t0, 20($fp)           # Leo el buffer del stack
+    lb             t0, 1(t0)             # Leo el segundo caracter
     move           a0, t0
-    jal            search_b64     
-    bnez           a3, error_busqueda
+    jal            search_b64            #Obtengo valorEntero1 (indice) de la tabla base64
+    bltz           v0, error_busqueda
     move           t1, v0                #Resultado valorEntero 2
-    sw               t1, 28($fp)
+    sw             t1, 28($fp)
 
-    lw               t0, 20($fp)
-    lb            t0, 2(t0)             #Leo el tercer caracter
+    lw             t0, 20($fp)
+    lb             t0, 2(t0)             #Leo el tercer caracter
 
-    la            t9, basis_64           # levando basis_64
-    lb            t6, 64(t9)             # Obtengo el caracter '='
-    beq           t0, t6, descontar_uno  # saltar si el caracter leido es =
+    la             t9, basis_64           # levando basis_64
+    lb             t6, 64(t9)             # Obtengo el caracter '='
+    beq            t0, t6, descontar_uno  # saltar si el caracter leido es =
 
-    move          a0, t0
-    jal           search_b64
-    bnez          a3, error_busqueda
-    move          t1, v0                 #Resultado valorEntero 3
-    sw               t1, 32($fp)            
-    j             leer_cuarto_byte
+    move           a0, t0
+    jal            search_b64
+    bltz           v0, error_busqueda
+    move           t1, v0                 #Resultado valorEntero 3
+    sw             t1, 32($fp)            
+    j              leer_cuarto_byte
 descontar_uno:
-    lw            t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
-    subu          t5, t5, 1             # Resto en uno a LEN_OUT de bytes tranformados
-    sw            t5, 16($fp)
+    lw             t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranformados
+    subu           t5, t5, 1             # Resto en uno a LEN_OUT de bytes tranformados
+    sw             t5, 16($fp)
 
 leer_cuarto_byte:
-    lw           t0, 20($fp)
-    lb            t0, 3(t0) #Leo el cuarto caracter
+    lw             t0, 20($fp)
+    lb             t0, 3(t0) #Leo el cuarto caracter
 
-    la            t9, basis_64           # levando basis_64
-    lb            t6, 64(t9)             # Obtengo el caracter '='
-    beq           t0, t6, descontar_segundo  # saltar si el caracter leido es =
+    la             t9, basis_64           # levando basis_64
+    lb             t6, 64(t9)             # Obtengo el caracter '='
+    beq            t0, t6, descontar_segundo  # saltar si el caracter leido es =
 
-    move          a0, t0
-    jal           search_b64
-    bnez          a3, error_busqueda
-    move          t4, v0 #Resultado valorEntero 4 
-    sw               t4, 36($fp)
+    move           a0, t0
+    jal            search_b64
+    bltz           v0, error_busqueda
+    move           t4, v0 #Resultado valorEntero 4 
+    sw             t4, 36($fp)
     j             continuar_deco
 descontar_segundo:
     lw            t5, 16($fp)           # Leo Contador LEN_OUT de bytes tranform
@@ -340,31 +339,31 @@ search_b64:
     sw          a0, LOCATE_ARG0_SF_SEARCH_B64($fp)
 
     li          v0, 0           # Usamos V0 para el resultado
-    li          t2, 66          # Para saber si no esta en el array el caracter buscado 
+    li          t2, 63          # Para saber si no esta en el array el caracter buscado 
     la          t0, basis_64
 search_loop:
-    lb          t1,0(t0)
+    lbu         t1,0(t0)
     beq         a0,t1,search_b64_return
-    beq         v0,t2,error_return 
-    addi        t0,t0,1     #Avanzo de a 1 word
-    addi        v0, v0, 1 
+    beq         v0,t2,error_return # Si ya llego al ultimo de  la tabla, no se encuentra el codigo
+    addi        t0,t0,1             #Avanzo de a 1 byte
+    addi        v0,v0,1 
     j           search_loop
 
 search_b64_return:
-    li          a3,RETURN_SUCCESS #Success
-    sw          a3,20($fp)
+    # li          a3,RETURN_SUCCESS #Success
+    # sw          a3,20($fp)
     j           destroy_frame
 
 error_return:
-    li          a3,RETURN_ERROR                     #Error
-    sw          a3,LOCATE_ARG3_SF_SEARCH_B64($fp)
+    ## li          a3,RETURN_ERROR                     #Error
+    ## sw          a3,LOCATE_ARG3_SF_SEARCH_B64($fp)
     li          v0,RETURN_ERROR                     #Error. No se encontro en el array el caracter buscado
     
 destroy_frame:
     move        sp, $fp
     lw          $fp, LOCATE_FP_SF_SEARCH_B64(sp)        # Destruimos el frame.
-    lw          a0, LOCATE_ARG0_SF_SEARCH_B64(sp)
-    lw          a3, LOCATE_ARG3_SF_SEARCH_B64(sp)
+    # lw          a0, LOCATE_ARG0_SF_SEARCH_B64(sp)
+    # lw          a3, LOCATE_ARG3_SF_SEARCH_B64(sp)
     lw          gp, 0(sp)
     addu        sp, sp, SIZE_SF_SEARCH_B64 
     jr          ra
