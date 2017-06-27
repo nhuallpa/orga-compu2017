@@ -36,8 +36,22 @@ echo "=============================TEST 6======================================"
 echo "Test 6: Codifico el contenido del archivo de entrada y guardo en archivo"
 echo "        de salida. Luego decodifico la salida de este archivo y lo mando"
 echo "        a otro archivo de entrada."
-../tp1 -i entrada.txt -o salida.txt -a encode 
-../tp1 -i salida.txt -o entrada2.txt -a decode
+./tp1 -i entrada.txt -o salida.txt -a encode 
+./tp1 -i salida.txt -o entrada2.txt -a decode
 diff -s entrada.txt entrada2.txt 
 echo "============================FIN TEST6===================================="
+echo "=============================TEST 7======================================"
+echo "Test 7: Codifico saltos de linea"
+      export ORI=archivo_orig_esc.txt &&
+      export RES=archivo_result_esc.txt &&
+      echo -ne 123tzyx\\t\\n | tee $ORI | ./tp1 -a encode | ./tp1 -a decode | tee $RES | od -c &&
+      diff -s $ORI $RES
+
+echo "============================FIN TEST7===================================="
+echo "=============================TEST 8======================================"
+echo "Test 7: Codifico y decodifico una imagen. Prueba de binarios"
+	  ./tp1 -a encode -i linux-icon.png | ./tp1 -a decode -o linux-icon.png.b64 &&
+      diff -s linux-icon.png linux-icon.png.b64
+
+echo "============================FIN TEST8===================================="
 echo "===========================FIN PRUEBAS==================================="
