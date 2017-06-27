@@ -76,12 +76,12 @@ Para compilar, ejecutar el siguiente comando:
 
 \subsection {{\normalsize Descripción del programa}}
 
-La función \texttt{main} se encuentra en \texttt{tp0.c} 
+La función \texttt{main} se encuentra en \texttt{tp1.c} 
 y se encarga de interpretar las opciones y argumentos. En caso de ser una opción, 
 como ayuda o versión, se imprime el mensaje correspondiente y finaliza
 la ejecución. Cuando no es una opción de ayuda o versión, se procede 
 a procesar los datos de entrada. La salida de estas funciones proveen 
-un codigo de error que sirve como salida del programa. Los mensajes de 
+un código de error que sirve como salida del programa. Los mensajes de 
 versión y ayuda se imprimen por stdout y el programa 
 finaliza devolviendo 0 (cero) al sistema. Los mensajes de error se 
 imprimen por la salida de errores (stderr) y el programa finaliza 
@@ -99,7 +99,7 @@ devolviendo 1 (uno) al sistema.
 
 Cuando se produce un error en la codificación o decodificación, se devuelve un código distinto de 0
 el cual sirve como indice para ver la descripción del error, la cual se encuentra en el vector de 
-errores msgerr. En caso de que se devuelva 0, en esta posición el vector msgerr contendrá el mensaje "No hubo errores".
+errores msgerr. En caso de que se devuelva 0.
 
 \subsection{{\normalsize Desarrollo de actividades}}
 
@@ -119,12 +119,6 @@ se focalizó en el desarrollo de la función decode. De esta manera los integrante
 realizaron la programación en codigo assembly de ambas funciones familiarizandose de esta manera
 con el lenguaje. 
 \item Se propuso antes de iniciar el desarrollo de cada función, diagramar los stacks frames de las funciones que utilizan el encode y decode, respetando la convención de la abi dada por la catedra a través de la bibliografía brindada por la misma.
-\item Solo se desarrollo el código assembly de las funciones encode y decode, lo cual para poder generar el resto del codigo assembly a partir del código fuente, 
-dentro de NETBSD, se utilizó gcc con la siguiente opción: 
-	\begin{tabbing}
-	------- \= ----- \= \kill
-	\> \textbf{\emph{gcc -S main.c}}\\ 
-	\end{tabbing}
 \item Para crear el presente informe se debe utilizar el comando make en el directorio informe.
 \end{enumerate}
 
@@ -220,10 +214,24 @@ cat $RES | od -t c
 			\newline \textbf{0002000}	
 		\item Codificamos el contenido del archivo de \textbf{entrada.txt}, el cual contiene la palabra \textbf{Man}. Guardamos la salida en el archivo \textbf{salida.txt}, el cual contiene como resultado de la codificación \textbf{TWFuCg==}. Luego decodificamos la salida de este archivo y lo mandamos a otro archivo de entrada (\textbf{entrada2.txt}). Vemos que en este último archivo se encuentra la palabra que se había pasado como entrada en el primer archivo, verificandose de esta manera la codificación y decodificación. 
 			\newline Para esta prueba ejecutamos por consola, estando posicionados en la carpeta pruebas, los siguientes comandos: 
-\begin{lstlisting}[language=bash,frame=single]
+\begin{lstlisting}[language=bash,frame=\tiny]
 ../tp1 -i entrada.txt -o salida.txt -a encode
 ../tp1 -i salida.txt -o entrada2.txt -a decode
 diff -s entrada.txt entrada2.txt 
+\end{lstlisting}
+		\item Codificamos y decodificamos caracteres con scape.
+		\newline Para esta prueba ejecutamos por consola, el siguiente comando.
+\begin{lstlisting}[language=bash,frame=single, basicstyle=\tiny ]
+export ORI=archivo_orig_esc.txt &&
+export RES=archivo_result_esc.txt &&
+echo -ne 123tzyx\\t\\n | tee $ORI | ./tp1 | ./tp1 -a decode | tee $RES | od -c &&
+diff -s $ORI $RES
+\end{lstlisting}
+		\item Codificamos y decodificamos un archivo imagen, que se puede encontrar en la carpeta prueba llamado linux-icon.png
+		\newline Para esta prueba ejecutamos por consola, el siguiente comando.
+\begin{lstlisting}[language=bash,frame=single, basicstyle=\tiny]
+./tp1 -a encode -i linux-icon.png | ./tp1 -a decode -o linux-icon.png.b64 &&
+diff -s linux-icon.png linux-icon.png.b64
 \end{lstlisting}
 		\item Corremos el script \textbf{test\_enunciado.sh}. El programa verifica con diff la codificación, mostrando las diferencias en caso de error. Finalmente esperamos superar la centena de corridas para cortar su ejecución haciendo ctrl+c.
 				

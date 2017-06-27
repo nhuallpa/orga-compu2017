@@ -126,20 +126,6 @@ continuar_deco4:
     lw            t3,32($fp)
     lw            t4,36($fp)
 
-#    bltz          t1,fin_decodificar
-#    li            t5,63
-#    bgt           t1,t5,fin_decodificar
-
-#    li            t5,64
-#    bltz          t2,fin_decodificar
-#    bgt           t2,t5,fin_decodificar
-
-#    bltz          t3,fin_decodificar
-#    bgt           t3,t5,fin_decodificar
-
-#    bltz          t4,fin_decodificar
-#    bgt           t4,t5,fin_decodificar
-
     li            t5,2
     sll           s0,t1,t5 #valorEntero1<<2
     li            t5,4
@@ -165,17 +151,6 @@ continuar_deco3:
     lw            t2,28($fp)
     lw            t3,32($fp)
 
- #   bltz          t1,fin_decodificar
- #   li            t5,63
- #   bgt           t1,t5,fin_decodificar
-
- #   li            t5,64
- #   bltz          t2,fin_decodificar
- #   bgt           t2,t5,fin_decodificar
-
- #   bltz          t3,fin_decodificar
- #   bgt           t3,t5,fin_decodificar
-
     li            t5,2
     sll           s0,t1,t5 #valorEntero1<<2
     li            t5,4
@@ -194,14 +169,6 @@ continuar_deco3:
 continuar_deco2:
     lw            t1,24($fp)
     lw            t2,28($fp)
-
- #   bltz          t1,fin_decodificar
- #   li            t5,63
- #   bgt           t1,t5,fin_decodificar
-
- #   li            t5,64
- #   bltz          t2,fin_decodificar
- #   bgt           t2,t5,fin_decodificar
 
     li            t5,2
     sll           s0,t1,t5 #valorEntero1<<2
